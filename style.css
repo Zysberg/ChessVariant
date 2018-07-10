@@ -11,9 +11,15 @@ table{
 
 td {
 	border: 1px solid black;
-	height:70px;
-	width: 70px;
+	height:65px;
+	width: 65px;
 }
+
+img{
+	margin-left: auto;
+	margin-right: auto;
+}
+
 td:hover{
 	background-color: #aaaaaa;
 }
