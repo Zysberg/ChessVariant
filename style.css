@@ -1,0 +1,19 @@
+body{
+	background-color: #66d9ff;
+
+
+
+}
+
+table{
+	margin:auto;
+}
+
+td {
+	border: 1px solid black;
+	height:70px;
+	width: 70px;
+}
+td:hover{
+	background-color: #aaaaaa;
+}
