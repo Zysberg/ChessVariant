@@ -1,6 +1,3 @@
-//Declaring variables
-
-
 //Generates the Board
 function makeBoard() {
     for (var i = 0; i < 10; i++) {
@@ -23,33 +20,30 @@ function cellColor(cell,i,j){
 	    else {cell.setAttribute("style", "background-color: #339933")}
 }
 
-//creates Ground Cell
-function createGroundCell(i, j) {
-    var cell = document.createElement("td");
+//Creates General Cell
+function createCell(i,j){
+	var cell = document.createElement("td");
     cell.setAttribute("id", i + " " + j);
     cell.setAttribute("align","center");
-    // var cellText = document.createTextNode("");
-    // cell.appendChild(cellText);
+    cell.addEventListener("click", function(){this.setAttribute("style","background-color:#777777")});
+    return cell;
+}
+
+//creates Ground Cell
+function createGroundCell(i, j) {
+	var cell = createCell(i,j);
     cellColor(cell,i,j);
     cell.addEventListener("mouseout", function() {cellColor(cell,i,j);})
     cell.addEventListener("mouseover", function() {this.setAttribute("style", "background-color:#aaaaaa")});
-    cell.addEventListener("click", function(){this.setAttribute("style","background-color:#777777")})
     return cell;
 }
 
 //Creates SkyCell
 function createSkyCell(i,j){
-	var cell1 = document.createElement("td");
-	cell1.setAttribute("id",i+" "+j);
-	cell1.setAttribute("align","center");
-	var cellText1 = document.createTextNode("");
-	cell1.appendChild(cellText1);
-	cell1.addEventListener("click", function(){this.setAttribute("style","background-color:#777777")});
+	var cell1 = createCell(i,j);
 	cell1.addEventListener("mouseout",function(){this.style=""})
-	 return cell1;
+	return cell1;
 }
-
-
 
 //Calls Necessary Functions
 makeBoard();
