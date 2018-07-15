@@ -21,9 +21,11 @@ function cellColor(cell,i,j){
 }
 
 //Creates General Cell
-function createCell(i,j){
+function createCell(GS,i,j){
 	var cell = document.createElement("td");
-    cell.setAttribute("id", i + " " + j);
+    cell.setAttribute("id",GS+""+i + " " + j);
+    // cell.setAttribute("class","")
+    // cell.setAttribute("id",i + " " + j);
     cell.setAttribute("align","center");
     cell.addEventListener("click", function(){this.setAttribute("style","background-color:#777777")});
     return cell;
@@ -31,7 +33,7 @@ function createCell(i,j){
 
 //creates Ground Cell
 function createGroundCell(i, j) {
-	var cell = createCell(i,j);
+	var cell = createCell('g',i,j);
     cellColor(cell,i,j);
     cell.addEventListener("mouseout", function() {cellColor(cell,i,j);})
     cell.addEventListener("mouseover", function() {this.setAttribute("style", "background-color:#aaaaaa")});
@@ -40,10 +42,17 @@ function createGroundCell(i, j) {
 
 //Creates SkyCell
 function createSkyCell(i,j){
-	var cell1 = createCell(i,j);
+	var cell1 = createCell('s',i,j);
 	cell1.addEventListener("mouseout",function(){this.style=""})
 	return cell1;
 }
+
+function placePiece(){
+
+}
+
+
+//groundBoard.getChildren.getChildren.appendChild(whiteAA);
 
 //Calls Necessary Functions
 makeBoard();
