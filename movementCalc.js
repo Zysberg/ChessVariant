@@ -15,3 +15,13 @@ function calcAA(param){
 	remInvalidSpaces(movement);
 	param.movement = movement;
 }
+
+function calcS(param){
+	var Pos = param.Pos;
+	if (Pos.isW){
+
+	}
+	else{
+		
+	}
+}
