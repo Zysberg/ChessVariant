@@ -7,7 +7,6 @@ function Piece(rank,isW,health,Pos,html){
 	obj.health = health;
 	obj.Pos = Pos;
 	obj.html = html;
-	obj.html2 = null;
 	return obj;
 }
 
@@ -18,10 +17,19 @@ function MovablePiece(rank,isW,health,Pos,html,movement){
 	return obj;
 }
 
-function CarriablePiece(rank,isW,health,Pos,html,movement){
+function MovablePiece(rank,isW,health,Pos,html,movement,html2){
+	var obj = Piece(rank,isW,health,Pos,html);
+	obj.movement = movement;
+	obj.damage = null; //TODO
+	obj.html2 = html2;
+	return obj;
+}
+
+function CarriablePiece(rank,isW,health,Pos,html,movement,html2){
 	var obj = MovablePiece(rank,isW,health,Pos,html,movement);
 	obj.Soldier = "";
 	obj.SoldierRange= []; //Same as calculating AA movement;
+	obj.html2 = html2;
 	return obj;
 }
 
@@ -33,11 +41,17 @@ function generatePiece(rank,isW,MCP,health,pos){
         html.style.transform = "rotate(180deg)";
     }
     if (MCP=="M"){
+    	if (rank=="AA"){
+    		var html2 = document.createElement("IMG");
+    		html2.src = ((isW) ? wDir:bDir)+"D.png";
+    		return MovablePiece(rank,isW,health,pos,html,[],html2);
+    	}
         return MovablePiece(rank,isW,health,pos,html,[]);
     }
     if (MCP=="C"){
-    	// var html2
-        return CarriablePiece(rank,isW,health,pos,html,[]);
+    	var html2 = document.createElement("IMG");
+    	html2.src = ((isW) ? wDir:bDir)+rank+"S.png";
+        return CarriablePiece(rank,isW,health,pos,html,[],html2);
     }
     return Piece(rank,isW,health,pos,html);
 }
