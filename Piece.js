@@ -1,5 +1,4 @@
-//TODO: change object methods such that you do not need to create custom methods
-
+//"Strategy" Design Principle
 function Piece(rank,isW,health,Pos,html){
 	var obj = {};
 	obj.rank = rank;
@@ -8,6 +7,13 @@ function Piece(rank,isW,health,Pos,html){
 	obj.Pos = Pos;
 	obj.html = html;
 	return obj;
+}
+
+function F(Pos,isW,html,html2){
+	var obj = Piece("F",isW,10,Pos,html);
+	obj.html2 = html2;
+	return obj;
+
 }
 
 function MovablePiece(rank,isW,health,Pos,html,movement){
@@ -33,9 +39,10 @@ function CarriablePiece(rank,isW,health,Pos,html,movement,html2){
 	return obj;
 }
 
-
-function generatePiece(rank,isW,MCP,health,pos){
+//"Factory" Design Principle
+function generatePiece(rank,isW,MCP,health,pos,ID){
    	var html = document.createElement("IMG");
+   	html.setAttribute("class",(rank+ID));
     html.src = ((isW) ? wDir:bDir)+rank+".png";
     if ((pos.indexOf('s')>-1) && (!isW)){
         html.style.transform = "rotate(180deg)";
@@ -44,14 +51,21 @@ function generatePiece(rank,isW,MCP,health,pos){
     	if (rank=="AA"){
     		var html2 = document.createElement("IMG");
     		html2.src = ((isW) ? wDir:bDir)+"D.png";
+    		html2.setAttribute("class",(rank+ID));
     		return MovablePiece(rank,isW,health,pos,html,[],html2);
     	}
-        return MovablePiece(rank,isW,health,pos,html,[]);
+        return MovablePiece(rank+ID,isW,health,pos,html,[]);
     }
     if (MCP=="C"){
     	var html2 = document.createElement("IMG");
     	html2.src = ((isW) ? wDir:bDir)+rank+"S.png";
-        return CarriablePiece(rank,isW,health,pos,html,[],html2);
+        return CarriablePiece(rank+ID,isW,health,pos,html,[],html2);
     }
-    return Piece(rank,isW,health,pos,html);
+
+    if (rank=="F"){
+    	var html2 = document.createElement("IMG");
+    	html2.src = ((isW) ? wDir:bDir)+"T.png";
+    	return F(pos,isW,html,html2);
+    }
+    return Piece(rank+ID,isW,health,pos,html);
 }
