@@ -2,6 +2,7 @@ var groundBoard = document.getElementById("groundTable");
 var skyBoard = document.getElementById("skyTable");
 var hMove = document.getElementById("hMove");
 
+//Used to locate src for png
 var wDir = "Images/White/White", bDir = "Images/Black/Black";
 
 //Soldiers, Anti-Air guns, Light Utility Vehicles
@@ -10,7 +11,11 @@ var blackSs = [], whiteSs = [], blackAAs = [],whiteAAs = [], blackLUVs = [],whit
 //Flags
 var bF = generatePiece("F",false,"P",10,"g0 5",0);
 var wF = generatePiece("F",true,"P", 10, "g9 4",0);
+//Bombers
+var bB = generatePiece("B",false,"M",6,"s1 5",0);
+var wB = generatePiece("B",true,"M",6,"s8 4",0);
 
+//generates the other pieces
 for (var i = 0;i<10;i++){
     var blackPos;
     var whitePos;
@@ -18,6 +23,8 @@ for (var i = 0;i<10;i++){
         //AAs
         blackPos = (i==0 ? "g0 0":"g0 9"), whitePos =  (i==0 ? "g9 0":"g9 9");
         whiteAAs[i] = generatePiece("AA",true,"M",6,whitePos,i);
+        //whiteAAs[i].movement = calcAA(whiteAAs[i].Pos);
+        console.log(whiteAAs[i].movement);
         blackAAs[i] = generatePiece("AA",false,"M",6,blackPos,i);
 
         //LUVs
@@ -51,12 +58,8 @@ for (var i = 0;i<10;i++){
  
     var whitePos = (i==1 || i==8 ? "g"+9+" "+i:"g"+8+" "+i);
     whiteSs[i] = generatePiece("S",true,"M",2,whitePos,i);
-
 }
 
-//Bombers
-var bB = generatePiece("B",false,"M",6,"s1 5",0);
-var wB = generatePiece("B",true,"M",6,"s8 4",0);
-
-var Black = blackSs.concat(blackAAs,blackLUVs,blackTTs,blackHVs,blackJs);
-var White = whiteSs.concat(whiteAAs,whiteLUVs,whiteTTs,whiteHVs,whiteJs);
+//concatenates all the pieces to two arrays
+var Black = blackSs.concat(blackAAs,blackLUVs,blackTTs,blackHVs,blackJs); Black.push(bB,bF);
+var White = whiteSs.concat(whiteAAs,whiteLUVs,whiteTTs,whiteHVs,whiteJs); White.push(wB,wF);

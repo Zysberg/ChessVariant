@@ -24,8 +24,6 @@ function cellColor(cell,i,j){
 function createCell(GS,i,j){
 	var cell = document.createElement("td");
     cell.setAttribute("id",GS+""+i + " " + j);
-    // cell.setAttribute("class","")
-    // cell.setAttribute("id",i + " " + j);
     cell.setAttribute("align","center");
     cell.addEventListener("click", function(){this.setAttribute("style","background-color:#777777")});
     return cell;
@@ -47,12 +45,23 @@ function createSkyCell(i,j){
 	return cell1;
 }
 
-function placePiece(){
-
+//Puts Pieces on the Board
+function placePiece(obj){
+	var cell = document.getElementById(obj.Pos);
+	cell.appendChild(obj.html);
+	if (obj.html2&&(!obj.rank.includes("LUV"))&&(!obj.rank.includes("HV"))){
+		var cell2 = document.getElementById("s"+obj.Pos.substring(1));
+		cell2.appendChild(obj.html2);
+	}
 }
 
 
-//groundBoard.getChildren.getChildren.appendChild(whiteAA);
+
 
 //Calls Necessary Functions
 makeBoard();
+
+for (var i = 0; i<Black.length;i++){
+		placePiece(Black[i]);
+		placePiece(White[i]);
+}
