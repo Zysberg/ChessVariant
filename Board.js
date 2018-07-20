@@ -25,7 +25,7 @@ function createCell(GS,i,j){
 	var cell = document.createElement("td");
     cell.setAttribute("id",GS+""+i + " " + j);
     cell.setAttribute("align","center");
-    cell.addEventListener("click", function(){this.setAttribute("style","background-color:#777777")});
+    //cell.addEventListener("click", function(){this.setAttribute("style","background-color:#777777")});
     return cell;
 }
 

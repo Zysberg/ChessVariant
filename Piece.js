@@ -34,7 +34,7 @@ function MovablePiece(rank,isW,health,Pos,html,movement,html2){
 function CarriablePiece(rank,isW,health,Pos,html,movement,html2){
 	var obj = MovablePiece(rank,isW,health,Pos,html,movement);
 	obj.Soldier = "";
-	obj.SoldierRange= []; //Same as calculating AA movement;
+	obj.SoldierRange= [];
 	obj.html2 = html2;
 	return obj;
 }

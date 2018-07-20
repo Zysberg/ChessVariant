@@ -8,6 +8,7 @@ function remInvalidSpaces(arr,Pos,rank){
 			s--;
 			continue;
 		}
+
 		//Second remove any Spaces occupied by Allies, with few exceptions
 		var PosHTML = document.getElementById(Pos), AtSHTML = document.getElementById(arr[s]);
 		if (document.getElementById(arr[s]).firstChild){
@@ -37,10 +38,10 @@ function getRC(Pos){
 		return RC;
 }
 
-function calcAA(Pos,rank){
+function calcAA(Pos){
 	var RC = getRC(Pos);
 	var movement = ["g"+(RC[0]+1)+" "+RC[1], "g"+(RC[0]-1)+" "+RC[1], "g"+RC[0]+" "+(RC[1]+1), "g"+RC[0]+" "+(RC[1]-1)];
-	movement = remInvalidSpaces(movement,Pos,rank);
+	movement = remInvalidSpaces(movement,Pos,"AA");
 	return movement;
 }
 
@@ -62,7 +63,7 @@ function calcLUV(Pos,isW){
 	var isW = LUV.isW;
 	var movement = [];
 	if (document.getElementById(Pos).firstChild.src.includes("S")){
-		for (int i=0;i<10;i++){
+		for (var i=0;i<10;i++){
 			movement.push("g"+RC[0]+" "+i);
 			movement.push("g"+i+" "+RC[1]);
 			movement.push("g"+(RC[0]+i)+""+(RC[1]+i));
@@ -86,5 +87,76 @@ function calcLUV(Pos,isW){
 		}
 	}
 	movement = remInvalidSpaces(movement,Pos,"LUV");
+	return movement;
+}
+
+function calcHV(Pos,isW){
+	var RC = getRC(Pos);
+	var movement = [];
+	//Standard Moves
+	movement.push("g"+(RC[0]-1)+" "+(RC[1]-1));
+	movement.push("g"+(RC[0]-1)+" "+(RC[1]+1));
+	movement.push("g"+(RC[0]+1)+" "+(RC[1]+1));
+	movement.push("g"+(RC[0]+1)+" "+(RC[1]-1));
+
+	movement.push("g"+(RC[0]+2)+" "+(RC[1]+1));
+	movement.push("g"+(RC[0]+1)+" "+(RC[1]+2));
+
+	movement.push("g"+(RC[0]-2)+" "+(RC[1]-1));
+	movement.push("g"+(RC[0]-1)+" "+(RC[1]-2));
+
+	movement.push("g"+(RC[0]-2)+" "+(RC[1]+1));
+	movement.push("g"+(RC[0]-1)+" "+(RC[1]+2));
+
+	movement.push("g"+(RC[0]+2)+" "+(RC[1]-1));
+	movement.push("g"+(RC[0]+1)+" "+(RC[1]-2));
+
+	//If its carrying a soldier
+	if (document.getElementById(Pos).firstChild.src.includes("S")){
+		movement.push("g"+(RC[0]+2)+" "+(RC[1]+2));
+		movement.push("g"+(RC[0]+2)+" "+(RC[1]-2));
+		movement.push("g"+(RC[0]-2)+" "+(RC[1]+2));
+		movement.push("g"+(RC[0]-2)+" "+(RC[1]-2));
+
+
+		movement.push("g"+(RC[0]+3)+" "+(RC[1]+1));
+		movement.push("g"+(RC[0]+1)+" "+(RC[1]+3));
+
+		movement.push("g"+(RC[0]-3)+" "+(RC[1]-1));
+		movement.push("g"+(RC[0]-1)+" "+(RC[1]-3));
+
+		movement.push("g"+(RC[0]-3)+" "+(RC[1]+1));
+		movement.push("g"+(RC[0]-1)+" "+(RC[1]+3));
+
+		movement.push("g"+(RC[0]+3)+" "+(RC[1]-1));
+		movement.push("g"+(RC[0]+1)+" "+(RC[1]-3));
+	}
+
+	movement = remInvalidSpaces(movement,Pos,"HV");
+	return movement;
+}
+
+function calcT(Pos,isW){
+	var RC = getRC(Pos);
+	var movement = [];
+
+	movement.push("g"+RC[0]+" "+(RC[1]+2));
+	movement.push("g"+RC[0]+" "+(RC[1]-2));
+	movement.push("g"+(RC[0]+2)+" "+(RC[1]));
+	movement.push("g"+(RC[0]-2)+" "+(RC[1]));
+
+	movement.push("g"+(RC[0]-1)+" "+(RC[1]+2));
+	movement.push("g"+(RC[0]-1)+" "+(RC[1]-2));
+	
+	movement.push("g"+(RC[0]+1)+" "+(RC[1]+2));
+	movement.push("g"+(RC[0]+1)+" "+(RC[1]-2));
+
+	movement.push("g"+(RC[0]-2)+" "+(RC[1]+1));
+	movement.push("g"+(RC[0]-2)+" "+(RC[1]-1));
+
+	movement.push("g"+(RC[0]+2)+" "+(RC[1]+1));
+	movement.push("g"+(RC[0]+2)+" "+(RC[1]-1));
+
+	movement = remInvalidSpaces(movement,Pos,"T");
 	return movement;
 }
