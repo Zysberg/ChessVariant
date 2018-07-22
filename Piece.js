@@ -39,6 +39,14 @@ function CarriablePiece(rank,isW,health,Pos,html,movement,html2){
 	return obj;
 }
 
+function FlyingPiece(rank,isW,health,Pos,html,orientation){
+    var obj = Piece(rank,isW,health,Pos,html);
+    obj.movement = movement;
+    obj.orientation = orientation; //1=N, 2=E, 3=S, 4=W;
+    obj.damage = null; //TODO
+    return obj;
+}
+
 //"Factory" Design Principle
 function generatePiece(rank,isW,MCP,health,pos,ID){
    	var html = document.createElement("IMG");
