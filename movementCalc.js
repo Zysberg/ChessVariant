@@ -129,7 +129,7 @@ function calcHV(Pos){
 	var movement = [];
 	//Standard Moves
 	movement = cardinal(Pos);
-	
+
 	//If its carrying a soldier
 	if (document.getElementById(Pos).firstChild.src.includes("S")){
 		movement.push("g"+(RC[0])+" "+(RC[1]-3));
@@ -181,65 +181,66 @@ function calcJ(Pos,Dir){	//N=1, E=2, S=3, W=4
 	if (Dir ==1){
 		for (var i=-2;i<3;i++){
 			if (i==-1||i==1){
-				movement.push("g"+(RC[0])+" "+(RC[1]+i));
+				movement.push("s"+(RC[0])+" "+(RC[1]+i));
 			}
 			if (i==0){
 				for (var j = -3; j<2;j++){
 					if (j==-1 || j==0){continue;}
-					movement.push("g"+(RC[0]+j)+" "+(RC[1]));
+					movement.push("s"+(RC[0]+j)+" "+(RC[1]));
 				}
 			}
-			movement.push("g"+(RC[0]-1)+" "+(RC[1]+i));
+			movement.push("s"+(RC[0]-1)+" "+(RC[1]+i));
 		}
 	}
 	else if (Dir == 2){
 		for (var i=-1;i<4;i++){
 			if (i==0){
-				movement.push("g"+(RC[0]+1)+" "+RC[1]);
-				movement.push("g"+(RC[0]-1)+" "+RC[1]);
+				movement.push("s"+(RC[0]+1)+" "+RC[1]);
+				movement.push("s"+(RC[0]-1)+" "+RC[1]);
 				continue;
 			}
 			if (i==1){
 				for (var j = -2; j<3;j++){
 					if (j==1){continue;}
-					movement.push("g"+(RC[0]+j)+" "+(RC[1]+1));
+					movement.push("s"+(RC[0]+j)+" "+(RC[1]+1));
 				}
 			}
-			movement.push("g"+(RC[0])+" "+(RC[1]+i));
+			movement.push("s"+(RC[0])+" "+(RC[1]+i));
 		}
 	}
 
 	else if (Dir ==3){
 		for (var i=-2;i<3;i++){
 			if (i==-1||i==1){
-				movement.push("g"+(RC[0])+" "+(RC[1]+i));
+				movement.push("s"+(RC[0])+" "+(RC[1]+i));
 			}
 			if (i==0){
 				for (var j = -1; j<4;j++){
 					if (j==0){continue;}
-					movement.push("g"+(RC[0]+j)+" "+(RC[1]));
+					movement.push("s"+(RC[0]+j)+" "+(RC[1]));
 				}
 			}
-			movement.push("g"+(RC[0]+1)+" "+(RC[1]+i));
+			movement.push("s"+(RC[0]+1)+" "+(RC[1]+i));
 		}
 	}
 
 	else if (Dir==4){
 		for (var i=-3;i<2;i++){
 			if (i==0){
-				movement.push("g"+(RC[0]+1)+" "+(RC[1]));
-				movement.push("g"+(RC[0]-1)+" "+RC[1]);
+				movement.push("s"+(RC[0]+1)+" "+(RC[1]));
+				movement.push("s"+(RC[0]-1)+" "+RC[1]);
 				continue;
 			}
 			if (i==-1){
 				for (var j = -2; j<3;j++){
 					if (j==0){continue;}
-					movement.push("g"+(RC[0]+j)+" "+(RC[1]-1));
+					movement.push("s"+(RC[0]+j)+" "+(RC[1]-1));
 				}
 			}
-			movement.push("g"+(RC[0])+" "+(RC[1]+i));
+			movement.push("s"+(RC[0])+" "+(RC[1]+i));
 		}
 	}
+	return movement;
 }
 
 function calcB(Pos,Dir){
@@ -248,45 +249,46 @@ function calcB(Pos,Dir){
 	if (Dir = 1){
 		for (var i = -1; i<2;i++){
 			if (i==-1||i==1){
-				movement.push("g"+(RC[0])+" "+(RC[1]+i));
+				movement.push("s"+(RC[0])+" "+(RC[1]+i));
 			}
 			if(i==0){
-				movement.push("g"+(RC[0]-2)+" "+(RC[1]));
+				movement.push("s"+(RC[0]-2)+" "+(RC[1]));
 			}
-			movement.push("g"+(RC[0]-1)+" "+(RC[1]+i));
+			movement.push("s"+(RC[0]-1)+" "+(RC[1]+i));
 		}
 	}
 	if (Dir = 2){
 		for (var i = -1; i<2;i++){
 			if (i==-1||i==1){
-				movement.push("g"+(RC[0]+i)+" "+(RC[1]));
+				movement.push("s"+(RC[0]+i)+" "+(RC[1]));
 			}
 			if(i==0){
-				movement.push("g"+(RC[0])+" "+(RC[1]+2));
+				movement.push("s"+(RC[0])+" "+(RC[1]+2));
 			}
-			movement.push("g"+(RC[0]+i)+" "+(RC[1]+1));
+			movement.push("s"+(RC[0]+i)+" "+(RC[1]+1));
 		}
 	}
 	if (Dir = 3){
 		for (var i = -1; i<2;i++){
 			if (i==-1||i==1){
-				movement.push("g"+(RC[0])+" "+(RC[1]+i));
+				movement.push("s"+(RC[0])+" "+(RC[1]+i));
 			}
 			if(i==0){
-				movement.push("g"+(RC[0]+2)+" "+(RC[1]));
+				movement.push("s"+(RC[0]+2)+" "+(RC[1]));
 			}
-			movement.push("g"+(RC[0]+1)+" "+(RC[1]+i));
+			movement.push("s"+(RC[0]+1)+" "+(RC[1]+i));
 		}
 	}
 	if (Dir = 4){
 		for (var i = -1; i<2;i++){
 			if (i==-1||i==1){
-				movement.push("g"+(RC[0]+i)+" "+(RC[1]));
+				movement.push("s"+(RC[0]+i)+" "+(RC[1]));
 			}
 			if(i==0){
-				movement.push("g"+(RC[0])+" "+(RC[1]-2));
+				movement.push("s"+(RC[0])+" "+(RC[1]-2));
 			}
-			movement.push("g"+(RC[0]+i)+" "+(RC[1]-1));
+			movement.push("s"+(RC[0]+i)+" "+(RC[1]-1));
 		}
 	}
+	return movement;
 }
