@@ -25,6 +25,7 @@ either have predecided aerial formations/ snake draft positions
 
 
 
+
 //This is where I'll figure out how to move pieces...
 
 var selectedCellID = "";

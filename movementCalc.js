@@ -100,7 +100,7 @@ function calcLUV(Pos){
 				movement.push("g"+(RC[0]+i)+""+(RC[1]+i));		
 			}
 			if(!stopNE){
-				if (document.getElementById("g"+(RC[0]-i)+""+(RC[1]+i)).firstChild){stopNW = true; continue;}
+				if (document.getElementById("g"+(RC[0]-i)+""+(RC[1]+i)).firstChild){stopNE = true; continue;}
 				movement.push("g"+(RC[0]-i)+""+(RC[1]+i));		
 			}
 			if(!stopSW){
@@ -129,26 +129,31 @@ function calcHV(Pos){
 	var movement = [];
 	//Standard Moves
 	movement = cardinal(Pos);
-
+	
 	//If its carrying a soldier
 	if (document.getElementById(Pos).firstChild.src.includes("S")){
-
-		movement.push("g"+(RC[0]-3)+" "+(RC[1]));
-		movement.push("g"+(RC[0]+3)+" "+(RC[1]));
-		movement.push("g"+(RC[0])+" "+(RC[1]+3));
 		movement.push("g"+(RC[0])+" "+(RC[1]-3));
+		movement.push("g"+(RC[0])+" "+(RC[1]+3));
+		movement.push("g"+(RC[0]+3)+" "+(RC[1]));
+		movement.push("g"+(RC[0]-3)+" "+(RC[1]));
 
-		movement.push("g"+(RC[0]+2)+" "+(RC[1]+1));
 		movement.push("g"+(RC[0]+1)+" "+(RC[1]+2));
-
-		movement.push("g"+(RC[0]-2)+" "+(RC[1]-1));
 		movement.push("g"+(RC[0]-1)+" "+(RC[1]-2));
 
-		movement.push("g"+(RC[0]-2)+" "+(RC[1]+1));
+		movement.push("g"+(RC[0]+1)+" "+(RC[1]-2));
 		movement.push("g"+(RC[0]-1)+" "+(RC[1]+2));
 
+		movement.push("g"+(RC[0]-2)+" "+(RC[1]+1));
 		movement.push("g"+(RC[0]+2)+" "+(RC[1]-1));
-		movement.push("g"+(RC[0]+1)+" "+(RC[1]-2));
+
+		movement.push("g"+(RC[0]+2)+" "+(RC[1]+1));
+		movement.push("g"+(RC[0]-2)+" "+(RC[1]-1));
+	}
+	else{
+		movement.push("g"+(RC[0]-1)+" "+(RC[1]-1));
+		movement.push("g"+(RC[0]+1)+" "+(RC[1]+1));
+		movement.push("g"+(RC[0]+1)+" "+(RC[1]-1));
+		movement.push("g"+(RC[0]-1)+" "+(RC[1]+1));
 	}
 
 	movement = remInvalidSpaces(movement,Pos,"HV");
