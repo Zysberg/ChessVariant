@@ -63,13 +63,41 @@ function calcLUV(Pos,isW){
 	var isW = LUV.isW;
 	var movement = [];
 	if (document.getElementById(Pos).firstChild.src.includes("S")){
+		var stopN = false,stopE=false, stopW=false, stopS = false;
+		var stopNE = false, stopNW = false, stopSE = false, stopSW=false;
 		for (var i=0;i<10;i++){
-			movement.push("g"+RC[0]+" "+i);
-			movement.push("g"+i+" "+RC[1]);
-			movement.push("g"+(RC[0]+i)+""+(RC[1]+i));
-			movement.push("g"+(RC[0]-i)+""+(RC[1]+i));
-			movement.push("g"+(RC[0]+i)+""+(RC[1]-i));
-			movement.push("g"+(RC[0]-i)+""+(RC[1]-i));
+			if (!stopN){
+				if (document.getElementById("g"+RC[0]+" "+(-1*i)).firstChild){ stopN = true;continue;}
+				movement.push("g"+RC[0]+" "+(-1*i));
+			}
+			if (!stopS){ 
+				if (document.getElementById("g"+RC[0]+" "+i).firstChild){stopS = true; continue;}
+				movement.push("g"+RC[0]+" "+i);
+			}
+			if (!stopE){
+				if (document.getElementById("g"+i+" "+RC[1]).firstChild){stopE = true; continue;}
+				movement.push("g"+i+" "+RC[1]);		
+			}
+			if (!stopW){
+				if (document.getElementById("g"+(-1*i)+" "+RC[1]).firstChild){stopW = true; continue;}
+				movement.push("g"+(-1*i)+" "+RC[1]);		
+			}
+			if(!stopSE){
+				if (document.getElementById("g"+(RC[0]+i)+""+(RC[1]+i)).firstChild){stopSE = true; continue;}
+				movement.push("g"+(RC[0]+i)+""+(RC[1]+i));		
+			}
+			if(!stopNE){
+				if (document.getElementById("g"+(RC[0]-i)+""+(RC[1]+i)).firstChild){stopNW = true; continue;}
+				movement.push("g"+(RC[0]-i)+""+(RC[1]+i));		
+			}
+			if(!stopSW){
+				if (document.getElementById("g"+(RC[0]+i)+""+(RC[1]-i)).firstChild){stopSW = true; continue;}
+				movement.push("g"+(RC[0]+i)+""+(RC[1]-i));		
+			}
+			if(!stopNW){
+				if (document.getElementById("g"+(RC[0]-i)+""+(RC[1]-i)).firstChild){stopNW = true; continue;}
+				movement.push("g"+(RC[0]-i)+""+(RC[1]-i));		
+			}
 		}
 	}
 	else{
@@ -99,37 +127,49 @@ function calcHV(Pos,isW){
 	movement.push("g"+(RC[0]+1)+" "+(RC[1]+1));
 	movement.push("g"+(RC[0]+1)+" "+(RC[1]-1));
 
-	movement.push("g"+(RC[0]+2)+" "+(RC[1]+1));
-	movement.push("g"+(RC[0]+1)+" "+(RC[1]+2));
-
-	movement.push("g"+(RC[0]-2)+" "+(RC[1]-1));
-	movement.push("g"+(RC[0]-1)+" "+(RC[1]-2));
-
-	movement.push("g"+(RC[0]-2)+" "+(RC[1]+1));
-	movement.push("g"+(RC[0]-1)+" "+(RC[1]+2));
-
-	movement.push("g"+(RC[0]+2)+" "+(RC[1]-1));
-	movement.push("g"+(RC[0]+1)+" "+(RC[1]-2));
+	//movement.push("g"+(RC[]))
+	// movement.push("g"+(RC[0]+2)+" "+(RC[1]+1));
+	// movement.push("g"+(RC[0]+1)+" "+(RC[1]+2));--
+	// movement.push("g"+(RC[0]-2)+" "+(RC[1]-1));
+	// movement.push("g"+(RC[0]-1)+" "+(RC[1]-2));--
+	// movement.push("g"+(RC[0]-2)+" "+(RC[1]+1));
+	// movement.push("g"+(RC[0]-1)+" "+(RC[1]+2));--
+	// movement.push("g"+(RC[0]+2)+" "+(RC[1]-1));
+	// movement.push("g"+(RC[0]+1)+" "+(RC[1]-2));
 
 	//If its carrying a soldier
 	if (document.getElementById(Pos).firstChild.src.includes("S")){
-		movement.push("g"+(RC[0]+2)+" "+(RC[1]+2));
-		movement.push("g"+(RC[0]+2)+" "+(RC[1]-2));
-		movement.push("g"+(RC[0]-2)+" "+(RC[1]+2));
-		movement.push("g"+(RC[0]-2)+" "+(RC[1]-2));
+		movement.push("g"+(RC[0])+" "+(RC[1]-3));
+		movement.push("g"+(RC[0])+" "+(RC[1]+3));
+		movement.push("g"+(RC[0]+3)+" "+(RC[1]));
+		movement.push("g"+(RC[0]-3)+" "+(RC[1]));
 
+		movement.push("g"+(RC[0]+1)+" "+(RC[1]+2));
+		movement.push("g"+(RC[0]-1)+" "+(RC[1]-2));
 
-		movement.push("g"+(RC[0]+3)+" "+(RC[1]+1));
-		movement.push("g"+(RC[0]+1)+" "+(RC[1]+3));
+		movement.push("g"+(RC[0]+1)+" "+(RC[1]-2));
+		movement.push("g"+(RC[0]-1)+" "+(RC[1]+2));
 
-		movement.push("g"+(RC[0]-3)+" "+(RC[1]-1));
-		movement.push("g"+(RC[0]-1)+" "+(RC[1]-3));
+		movement.push("g"+(RC[0]-2)+" "+(RC[1]+1));
+		movement.push("g"+(RC[0]+2)+" "+(RC[1]-1));
 
-		movement.push("g"+(RC[0]-3)+" "+(RC[1]+1));
-		movement.push("g"+(RC[0]-1)+" "+(RC[1]+3));
+		movement.push("g"+(RC[0]+2)+" "+(RC[1]+1));
+		movement.push("g"+(RC[0]-2)+" "+(RC[1]-1));
 
-		movement.push("g"+(RC[0]+3)+" "+(RC[1]-1));
-		movement.push("g"+(RC[0]+1)+" "+(RC[1]-3));
+		// movement.push("g"+(RC[0]+3)+" "+(RC[1]+1));
+		// movement.push("g"+(RC[0]+1)+" "+(RC[1]+3));--
+		// movement.push("g"+(RC[0]-3)+" "+(RC[1]-1));
+		// movement.push("g"+(RC[0]-1)+" "+(RC[1]-3));--
+		// movement.push("g"+(RC[0]-3)+" "+(RC[1]+1));
+		// movement.push("g"+(RC[0]-1)+" "+(RC[1]+3));--
+		// movement.push("g"+(RC[0]+3)+" "+(RC[1]-1));
+		// movement.push("g"+(RC[0]+1)+" "+(RC[1]-3));
+	}
+	else{
+		movement.push("g"+(RC[0])+" "+(RC[1]-1));
+		movement.push("g"+(RC[0])+" "+(RC[1]+1));
+		movement.push("g"+(RC[0]+1)+" "+(RC[1]));
+		movement.push("g"+(RC[0]-1)+" "+(RC[1]));
 	}
 
 	movement = remInvalidSpaces(movement,Pos,"HV");
