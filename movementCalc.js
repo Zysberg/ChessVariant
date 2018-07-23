@@ -9,7 +9,7 @@ function remInvalidSpaces(arr,Pos,rank){
 			continue;
 		}
 
-		if (!rank.includes("J")&&!rank.incldues("B")){
+		if (!rank.includes("J")&&!rank.includes("B")){
 			//Second remove any Spaces occupied by Allies, with few exceptions
 			var PosHTML = document.getElementById(Pos), AtSHTML = document.getElementById(arr[s]);
 			if (document.getElementById(arr[s]).firstChild){
@@ -32,13 +32,6 @@ function remInvalidSpaces(arr,Pos,rank){
 			}
 		}
 	}
-	return arr;
-}
-
-function findAndRemove(arr,el){
-	var index = arr.indexOf(el);
-	if (index==-1){ return;}
-	arr.splice(index,1);
 	return arr;
 }
 

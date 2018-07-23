@@ -2,6 +2,15 @@ var groundBoard = document.getElementById("groundTable");
 var skyBoard = document.getElementById("skyTable");
 var hMove = document.getElementById("hMove");
 
+var selectedCellID = "";
+var selectedActionCellID = "";
+var selectedPiece = {};
+var selectedCellMovement = [];
+var selectedCellDamage = [];
+
+var isWhite = true;
+var moveCount = 0;
+
 //Used to locate src for png
 var wDir = "Images/White/White", bDir = "Images/Black/Black";
 

@@ -21,7 +21,7 @@ function dCalcLUV(Pos,isW){
 	return [];
 }
 
-function dCalcHMV(Pos,isW){
+function dCalcHV(Pos,isW){
 	var RC = getRC(Pos);
 	var damage =[];
 	if (document.getElementById(Pos).firstChild.src.includes("S")){
