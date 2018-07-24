@@ -12,6 +12,7 @@ function Piece(rank,isW,health,Pos,html){
 function F(Pos,isW,html,html2){
 	var obj = Piece("F",isW,10,Pos,html);
 	obj.html2 = html2;
+    obj.movement = [];
 	return obj;
 
 }

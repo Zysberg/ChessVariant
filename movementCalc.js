@@ -9,7 +9,7 @@ function remInvalidSpaces(arr,Pos,rank){
 			continue;
 		}
 
-		if (!rank.includes("J")&&!rank.includes("B")){
+		if (!(rank.includes("J"))&&!(rank.includes("B"))){
 			//Second remove any Spaces occupied by Allies, with few exceptions
 			var PosHTML = document.getElementById(Pos), AtSHTML = document.getElementById(arr[s]);
 			if (document.getElementById(arr[s]).firstChild){
@@ -55,11 +55,11 @@ function calcAA(Pos){
 function calcS(Pos,isW){
 	var RC = getRC(Pos);
 	var movement=[];
-	if (Pos.isW){
-		movement = ["g"+(RC[0]-1)+" "+(RC[1]-1),	"g"+(RC[0])+" "+(RC[1]-1),	"g"+(RC[0]-1)+" "+(RC[1]-1)];
+	if (isW){
+		movement = ["g"+(RC[0]-1)+" "+(RC[1]-1),	"g"+(RC[0]-1)+" "+(RC[1]),	"g"+(RC[0]-1)+" "+(RC[1]+1)];
 	}
 	else{
-		movement = ["g"+(RC[0]-1)+" "+(RC[1]+1),	"g"+(RC[0])+" "+(RC[1]+1),	"g"+(RC[0]-1)+" "+(RC[1]+1)];
+		movement = ["g"+(RC[0]+1)+" "+(RC[1]+1),	"g"+(RC[0])+" "+(RC[1]+1),	"g"+(RC[0]-1)+" "+(RC[1]+1)];
 	}
 	movement = remInvalidSpaces(movement,Pos,"S");
 	return movement;
@@ -233,6 +233,7 @@ function calcJ(Pos,Dir){	//N=1, E=2, S=3, W=4
 			movement.push("s"+(RC[0])+" "+(RC[1]+i));
 		}
 	}
+	movement = remInvalidSpaces(movement,Pos,"J");
 	return movement;
 }
 
@@ -283,5 +284,6 @@ function calcB(Pos,Dir){
 			movement.push("s"+(RC[0]+i)+" "+(RC[1]-1));
 		}
 	}
+	movement = remInvalidSpaces(movement,Pos,"B");
 	return movement;
 }

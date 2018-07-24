@@ -4,7 +4,7 @@ var hMove = document.getElementById("hMove");
 
 var selectedCellID = "";
 var selectedActionCellID = "";
-var selectedPiece = {};
+var selectedPiece = undefined;
 var selectedCellMovement = [];
 var selectedCellDamage = [];
 
