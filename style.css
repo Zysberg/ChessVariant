@@ -1,10 +1,6 @@
-body{
-	background-color: #66d9ff;
-}
+body{background-color: #66d9ff;}
 
-table{
-	margin:auto;
-}
+table{margin:auto;}
 
 td {
 	border: 1px solid black;
@@ -12,20 +8,18 @@ td {
 	width: 60px;
 }
 
-td:hover{
-	background-color:#aaaaaa;
-}
+td:hover{background-color:#aaaaaa;}
 
 img{
 	margin-left: auto;
 	margin-right: auto;
 }
 
-#ground,#sky{
-	display: inline-block;
-}
-#container{
-	text-align: center;
-}
+#ground,#sky{display: inline-block;}
+#container{	text-align: center;}
+
+#ijMod2is0{background-color:#195919;}
+
+#ijMod2is1{background-color:#339933;}
 
 .hMovement{background-color:#ffff00;}

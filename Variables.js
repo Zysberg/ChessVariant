@@ -72,3 +72,4 @@ for (var i = 0;i<10;i++){
 //concatenates all the pieces to two arrays
 var Black = blackSs.concat(blackAAs,blackLUVs,blackTTs,blackHVs,blackJs); Black.push(bB,bF);
 var White = whiteSs.concat(whiteAAs,whiteLUVs,whiteTTs,whiteHVs,whiteJs); White.push(wB,wF);
+

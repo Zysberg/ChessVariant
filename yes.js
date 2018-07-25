@@ -73,6 +73,12 @@ White.forEach(function(element) {
     element.movement = calcB(element.Pos,1);
   }
 });
+
+function convert2htmlID(jQ){
+  console.log(jQ.attr('id')); 
+  return document.getElementById(jQ.attr('id'));
+}
+
 function existsinArray(arg, arr){
     for (var i =0; i<arr.length;i++){
         if (arr[i] = arg){
@@ -104,32 +110,51 @@ $('#groundTable tr,#skyTable tr').each(function(){
     		$(this).attr("style","background-color:#777777");
 
         //check to see if this id is within movement TODO
-        // if (!selectedCellMovement.contains($(this).attr("id"))){
-        //   selectedCellMovement.forEach(function(elm){})
-        // }
+        if ((typeof(selectedPiece)==='undefined')||!existsinArray($(this).attr("id"),selectedCellMovement)){
+          selectedCellMovement = [];
 
-        //calls the Piece Object at the position
-        if (typeof(selectedPiece) ==='undefined'){
-    		    if (isWhite){
-              selectedPiece = White.find(obj => obj.Pos == $(this).attr("id"));console.log(selectedPiece);
-           }
-            else{
+          //calls the Piece Object at the position
+      		if (isWhite){
+              selectedPiece = White.find(obj => obj.Pos == $(this).attr("id"));
+          }
+          else{
               selectedPiece = Black.find(obj => obj.Pos == $(this).attr("id"));
+          }
+          selectedCellID = $(this).attr('id');
+
+          //has to check if the piece is defined in order to get the movement
+          if (typeof(selectedPiece) !=='undefined'){
+            selectedCellMovement = selectedPiece.movement;
+              selectedPiece.movement.forEach(function(elm){
+                if (document.getElementById("hMove").checked){
+                  document.getElementById(elm).setAttribute("style","background-color:#ffff00"); //highlight movement
+                }
+              });
+          }
+    	  }
+
+        else{
+
+          //defining the action of movement here    
+          if ( $(this).children().length > 0 ) {
+            console.log($("#"+selectedCellID));
+            console.log(document.getElementById(selectedCellID).firstChild);
+            console.log(document.getElementById($(this).attr('id')))
+            if ((selectedPiece.rank.includes("HV")||selectedPiece.rank.includes('LUV'))&&
+              selectedPiece.isW&&convert2htmlID($(this)).firstChild.getAttribute("src").includes('WhiteS')){
+              console.log("oof");
             }
+            $(this).empty();
+          }
         }
 
-        //has to check if the piece is defined in order to get the movement
-        if (typeof(selectedPiece) !=='undefined'){
-          selectedCellMovement = selectedPiece.movement;
-            selectedPiece.movement.forEach(function(elm){
-              document.getElementById(elm).setAttribute("style","background-color:#ffff00"); //highlight movement
-              // document.getElementById(elm).setAttribute("class","hMovement");
-            })
-        }
-        selectedPiece = undefined;
-    	});
+
+
+
+
+      });
     });
-})
+});
 
 
 

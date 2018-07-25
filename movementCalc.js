@@ -107,6 +107,7 @@ function calcLUV(Pos){
 		}
 	}
 	else{
+		console.log(110);
 		movement.push("g"+(RC[0]-1)+""+(RC[1]-1));
 		movement.push("g"+(RC[0]+1)+""+(RC[1]+1));
 		movement.push("g"+(RC[0]-1)+""+(RC[1]+1));
