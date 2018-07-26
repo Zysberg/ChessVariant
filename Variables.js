@@ -3,6 +3,7 @@ var skyBoard = document.getElementById("skyTable");
 var hMove = document.getElementById("hMove");
 
 var selectedCellID = "";
+var movedCellID = "";
 var selectedActionCellID = "";
 var selectedPiece = undefined;
 var selectedCellMovement = [];

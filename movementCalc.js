@@ -15,10 +15,8 @@ function remInvalidSpaces(arr,Pos,rank){
 			if (document.getElementById(arr[s]).firstChild){
 				if (rank.includes("HV")||rank.includes("LUV")){
 					if (AtSHTML.firstChild.src.includes("WhiteS")&&PosHTML.firstChild.src.includes("White")){
-						continue;
 					}
 					else if (AtSHTML.firstChild.src.includes("BlackS")&&PosHTML.firstChild.src.includes("Black")){
-						continue;
 					}
 				}
 				else{
@@ -287,4 +285,30 @@ function calcB(Pos,Dir){
 	}
 	movement = remInvalidSpaces(movement,Pos,"B");
 	return movement;
+}
+
+function calcMovement(SelectedPiece){
+	if (SelectedPiece.rank.includes("S")){
+		return calcS(SelectedPiece.Pos,SelectedPiece.isW);
+	}
+	if (SelectedPiece.rank.includes("HV")){
+		return calcHV(SelectedPiece.Pos);
+	}
+	if (SelectedPiece.rank.includes("TT")){
+		return calcT(SelectedPiece.Pos);
+	}
+	if (SelectedPiece.rank.includes("LUV")){
+		//console.log(calcLUV(S));
+		return calcLUV(SelectedPiece.Pos);
+
+	}
+	if (SelectedPiece.rank.includes("AA")){
+		return calcAA(SelectedPiece.Pos);
+	}
+	if (SelectedPiece.rank.includes("J")){
+		return calcJ(SelectedPiece.Pos,SelectedPiece.orientation);
+	}
+	if (SelectedPiece.rank.includes("B")){
+		return calcB(SelectedPiece.Pos,SelectedPiece.orientation);
+	}
 }

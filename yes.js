@@ -75,13 +75,12 @@ White.forEach(function(element) {
 });
 
 function convert2htmlID(jQ){
-  console.log(jQ.attr('id')); 
   return document.getElementById(jQ.attr('id'));
 }
 
 function existsinArray(arg, arr){
     for (var i =0; i<arr.length;i++){
-        if (arr[i] = arg){
+        if (arr[i] == arg){
             return true;
         }
     }
@@ -89,18 +88,43 @@ function existsinArray(arg, arr){
 }
 
 function resetAndSwitch(Turn){
-    selectedPiece = {};
-    selectedCellID = "";
-    selectedActionCellID = "";
-    selectedCellMovement = [];
-    selectedCellDamage = [];
+ selectedCellID = "";
+ movedCellID = "";
+ selectedActionCellID = "";
+ selectedPiece = undefined;
+ selectedCellMovement = [];
+ selectedCellDamage = [];
     if (Turn){
         isWhite = (isWhite ? false:true);
     }
 }
 
+function bindSoldierWithCarriablePiece(isWhite,thisID){
+  var thisIDhtml = document.getElementById(thisID);
+  selectedPiece.Soldier = (isWhite) ? White.find(obj => obj.Pos == thisIDhtml.getAttribute("id")):Black.find(obj => obj.Pos == thisIDhtml.getAttribute("id"));            
+  selectedPiece.Soldier.Pos = "";
+  removeChild(thisIDhtml,false);
+  movedCellID = selectedPiece.Pos;
+  removeChild(document.getElementById(movedCellID),false);
+  var temp = selectedPiece.html;
+  selectedPiece.html = selectedPiece.html2;
+  selectedPiece.html2 = selectedPiece.html;
+  thisIDhtml.append(selectedPiece.html);  
+  selectedPiece.Pos = thisID;
+}
+
+function removeChild(html,isJQ){
+  if (!isJQ){
+    while (html.firstChild) {
+     html.removeChild(html.firstChild);
+    }
+    return;
+  }
+  removeChild(html,true);
+}
 
 //This is where I'll figure out how to move pieces...
+
 
 $('#groundTable tr,#skyTable tr').each(function(){
     $(this).find('td').each(function(){
@@ -108,23 +132,22 @@ $('#groundTable tr,#skyTable tr').each(function(){
 
         //darkens selected cell
     		$(this).attr("style","background-color:#777777");
-
-        //check to see if this id is within movement TODO
-        if ((typeof(selectedPiece)==='undefined')||!existsinArray($(this).attr("id"),selectedCellMovement)){
+        //check to see if this id is within movement
+        console.log()
+        if ((typeof(selectedPiece)==='undefined')||!(existsinArray($(this).attr("id"),selectedCellMovement))){
+          console.log($(this).attr("id"), selectedCellMovement);
           selectedCellMovement = [];
 
           //calls the Piece Object at the position
-      		if (isWhite){
-              selectedPiece = White.find(obj => obj.Pos == $(this).attr("id"));
-          }
-          else{
-              selectedPiece = Black.find(obj => obj.Pos == $(this).attr("id"));
-          }
+      		if (isWhite){selectedPiece = White.find(obj => obj.Pos == $(this).attr("id"));}
+          else{selectedPiece = Black.find(obj => obj.Pos == $(this).attr("id"));}
           selectedCellID = $(this).attr('id');
 
           //has to check if the piece is defined in order to get the movement
           if (typeof(selectedPiece) !=='undefined'){
+            selectedPiece.movement = calcMovement(selectedPiece);
             selectedCellMovement = selectedPiece.movement;
+            console.log(selectedPiece);
               selectedPiece.movement.forEach(function(elm){
                 if (document.getElementById("hMove").checked){
                   document.getElementById(elm).setAttribute("style","background-color:#ffff00"); //highlight movement
@@ -132,26 +155,29 @@ $('#groundTable tr,#skyTable tr').each(function(){
               });
           }
     	  }
-
         else{
-
           //defining the action of movement here    
           if ( $(this).children().length > 0 ) {
-            console.log($("#"+selectedCellID));
-            console.log(document.getElementById(selectedCellID).firstChild);
-            console.log(document.getElementById($(this).attr('id')))
-            if ((selectedPiece.rank.includes("HV")||selectedPiece.rank.includes('LUV'))&&
-              selectedPiece.isW&&convert2htmlID($(this)).firstChild.getAttribute("src").includes('WhiteS')){
-              console.log("oof");
+            //If player wants to carry a soldier with HV or LUV
+            if ((selectedPiece.rank.includes("HV")||selectedPiece.rank.includes('LUV'))&&selectedPiece.isW&&convert2htmlID($(this)).firstChild.getAttribute("src").includes('WhiteS')){
+              bindSoldierWithCarriablePiece(isWhite,$(this).attr('id'));
             }
-            $(this).empty();
+            else{
+              //To capture a piece
+              removeChild($(this),true);
+              selectedPiece.Pos = $(this).attr('id');
+              $(this).append(selectedPiece.html);
+            }
           }
+          else{
+            //To move a piece          
+            selectedPiece.Pos = $(this).attr('id');
+            $(this).append(selectedPiece.html);
+          }
+        selectedPiece = undefined;
+        selectedCellMovement = [];
+
         }
-
-
-
-
-
       });
     });
 });
