@@ -75,6 +75,7 @@ White.forEach(function(element) {
 });
 
 function convert2htmlID(jQ){
+  console.log(jQ);
   return document.getElementById(jQ.attr('id'));
 }
 
@@ -99,6 +100,12 @@ function resetAndSwitch(Turn){
     }
 }
 
+function move(cell){
+  selectedPiece.Pos = cell.attr('id');
+  cell.append(selectedPiece.html);
+}
+
+
 function bindSoldierWithCarriablePiece(isWhite,thisID){
   var thisIDhtml = document.getElementById(thisID);
   selectedPiece.Soldier = (isWhite) ? White.find(obj => obj.Pos == thisIDhtml.getAttribute("id")):Black.find(obj => obj.Pos == thisIDhtml.getAttribute("id"));            
@@ -120,7 +127,7 @@ function removeChild(html,isJQ){
     }
     return;
   }
-  removeChild(html,true);
+  html.empty();
 }
 
 //This is where I'll figure out how to move pieces...
@@ -135,7 +142,6 @@ $('#groundTable tr,#skyTable tr').each(function(){
         //check to see if this id is within movement
         console.log()
         if ((typeof(selectedPiece)==='undefined')||!(existsinArray($(this).attr("id"),selectedCellMovement))){
-          console.log($(this).attr("id"), selectedCellMovement);
           selectedCellMovement = [];
 
           //calls the Piece Object at the position
@@ -147,7 +153,6 @@ $('#groundTable tr,#skyTable tr').each(function(){
           if (typeof(selectedPiece) !=='undefined'){
             selectedPiece.movement = calcMovement(selectedPiece);
             selectedCellMovement = selectedPiece.movement;
-            console.log(selectedPiece);
               selectedPiece.movement.forEach(function(elm){
                 if (document.getElementById("hMove").checked){
                   document.getElementById(elm).setAttribute("style","background-color:#ffff00"); //highlight movement
@@ -159,18 +164,19 @@ $('#groundTable tr,#skyTable tr').each(function(){
           //defining the action of movement here    
           if ( $(this).children().length > 0 ) {
             //If player wants to carry a soldier with HV or LUV
-            if ((selectedPiece.rank.includes("HV")||selectedPiece.rank.includes('LUV'))&&selectedPiece.isW&&convert2htmlID($(this)).firstChild.getAttribute("src").includes('WhiteS')){
-              bindSoldierWithCarriablePiece(isWhite,$(this).attr('id'));
+            if ((selectedPiece.rank.includes("HV")||selectedPiece.rank.includes('LUV'))&&convert2htmlID($(this)).firstChild.getAttribute("src").includes('WhiteS')){
+              if (selectedPiece.Soldier==""){
+                bindSoldierWithCarriablePiece(isWhite,$(this).attr('id'));
+              }
             }
             else{
               //To capture a piece
-              removeChild($(this),true);
-              selectedPiece.Pos = $(this).attr('id');
-              $(this).append(selectedPiece.html);
+              $(this).empty();
+              move($(this));
             }
           }
           else{
-            //To move a piece          
+            //To move a piece     
             selectedPiece.Pos = $(this).attr('id');
             $(this).append(selectedPiece.html);
           }

@@ -40,7 +40,7 @@ function getRC(Pos){
 
 function cardinal(Pos){
 	var RC = getRC(Pos);
-	return ["g"+(RC[0])+""+(RC[1]-1),"g"+(RC[0])+""+(RC[1]+1), "g"+(RC[0]+1)+""+(RC[1]),"g"+(RC[0]-1)+""+(RC[1])];
+	return ["g"+(RC[0])+" "+(RC[1]-1),"g"+(RC[0])+" "+(RC[1]+1), "g"+(RC[0]+1)+" "+(RC[1]),"g"+(RC[0]-1)+" "+(RC[1])];
 }
 
 function calcAA(Pos){
@@ -105,7 +105,6 @@ function calcLUV(Pos){
 		}
 	}
 	else{
-		console.log(110);
 		movement.push("g"+(RC[0]-1)+""+(RC[1]-1));
 		movement.push("g"+(RC[0]+1)+""+(RC[1]+1));
 		movement.push("g"+(RC[0]-1)+""+(RC[1]+1));
