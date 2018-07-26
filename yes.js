@@ -22,58 +22,6 @@ because of radii of movement of pieces, consider making board bigger for start o
 either have predecided aerial formations/ snake draft positions
 
 **/ 
-Black.forEach(function(element) {
-  if (element.rank.includes("S")){
-        element.movement = calcS(element.Pos,false);
-  }
-  if (element.rank.includes("HV")){
-    element.movement = calcHV(element.Pos);
-  }
-  if (element.rank.includes("LUV")){
-    element.movement = calcLUV(element.Pos);
-  }
-  if (element.rank.includes("TT")){
-    element.movement = calcT(element.Pos);
-  }
-  if (element.rank.includes("AA")){
-    element.movement = calcAA(element.Pos);
-  }
-  if (element.rank.includes("J")){
-    element.orientation= 1;
-    element.movement = calcJ(element.Pos,1);
-  }
-  if (element.rank.includes("B")){
-    element.orientation= 3;
-    element.movement = calcB(element.Pos,3);
-  }
-});
-
-White.forEach(function(element) {
-  if (element.rank.includes("S")){
-        element.movement = calcS(element.Pos,true);
-  }
-  if (element.rank.includes("HV")){
-    element.movement = calcHV(element.Pos);
-  }
-  if (element.rank.includes("LUV")){
-    element.movement = calcLUV(element.Pos);
-  }
-  if (element.rank.includes("TT")){
-    element.movement = calcT(element.Pos);
-  }
-  if (element.rank.includes("AA")){
-    element.movement = calcAA(element.Pos);
-  }
-  if (element.rank.includes("J")){
-    element.orientation= 1;
-    element.movement = calcJ(element.Pos,1);
-  }
-  if (element.rank.includes("B")){
-    element.orientation= 1;
-    element.movement = calcB(element.Pos,1);
-  }
-});
-
 function convert2htmlID(jQ){
   console.log(jQ);
   return document.getElementById(jQ.attr('id'));
@@ -89,6 +37,7 @@ function existsinArray(arg, arr){
 }
 
 function resetAndSwitch(Turn){
+ turnCounter=0;
  selectedCellID = "";
  movedCellID = "";
  selectedActionCellID = "";
@@ -96,7 +45,7 @@ function resetAndSwitch(Turn){
  selectedCellMovement = [];
  selectedCellDamage = [];
     if (Turn){
-        isWhite = (isWhite ? false:true);
+        isWhite = (isWhite==true ? false:true);
     }
 }
 
@@ -104,7 +53,6 @@ function move(cell){
   selectedPiece.Pos = cell.attr('id');
   cell.append(selectedPiece.html);
 }
-
 
 function bindSoldierWithCarriablePiece(isWhite,thisID){
   var thisIDhtml = document.getElementById(thisID);
@@ -130,17 +78,29 @@ function removeChild(html,isJQ){
   html.empty();
 }
 
+function tick(){
+  turnCounter++;
+  if (turnCounter==2){
+    resetAndSwitch(true);
+  }
+}
+
 //This is where I'll figure out how to move pieces...
 
 
 $('#groundTable tr,#skyTable tr').each(function(){
     $(this).find('td').each(function(){
     	$(this).click(function(){
-
         //darkens selected cell
     		$(this).attr("style","background-color:#777777");
+
+
+
+
+        //MOVEMENT
+
+
         //check to see if this id is within movement
-        console.log()
         if ((typeof(selectedPiece)==='undefined')||!(existsinArray($(this).attr("id"),selectedCellMovement))){
           selectedCellMovement = [];
 
@@ -175,15 +135,10 @@ $('#groundTable tr,#skyTable tr').each(function(){
               move($(this));
             }
           }
-          else{
-            //To move a piece     
-            selectedPiece.Pos = $(this).attr('id');
-            $(this).append(selectedPiece.html);
-          }
-        selectedPiece = undefined;
-        selectedCellMovement = [];
-
-        }
+        else{ move($(this));}             //To move a piece    
+        tick();
+      }
+      //MOVEMENT
       });
     });
 });

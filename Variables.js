@@ -8,6 +8,7 @@ var selectedActionCellID = "";
 var selectedPiece = undefined;
 var selectedCellMovement = [];
 var selectedCellDamage = [];
+var turnCounter=1;
 
 var isWhite = true;
 var moveCount = 0;
@@ -33,8 +34,6 @@ for (var i = 0;i<10;i++){
         //AAs
         blackPos = (i==0 ? "g0 0":"g0 9"), whitePos =  (i==0 ? "g9 0":"g9 9");
         whiteAAs[i] = generatePiece("AA",true,"M",6,whitePos,i);
-        //whiteAAs[i].movement = calcAA(whiteAAs[i].Pos);
-        console.log(whiteAAs[i].movement);
         blackAAs[i] = generatePiece("AA",false,"M",6,blackPos,i);
 
         //LUVs
