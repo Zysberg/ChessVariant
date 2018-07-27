@@ -23,7 +23,6 @@ either have predecided aerial formations/ snake draft positions
 
 **/ 
 function convert2htmlID(jQ){
-  console.log(jQ);
   return document.getElementById(jQ.attr('id'));
 }
 
@@ -58,6 +57,8 @@ function bindSoldierWithCarriablePiece(isWhite,thisID){
   var thisIDhtml = document.getElementById(thisID);
   selectedPiece.Soldier = (isWhite) ? White.find(obj => obj.Pos == thisIDhtml.getAttribute("id")):Black.find(obj => obj.Pos == thisIDhtml.getAttribute("id"));            
   selectedPiece.Soldier.Pos = "";
+  selectedPiece.rank = selectedPiece.rank.substring(0,selectedPiece.rank.length-1)+"S"+selectedPiece.rank.charAt(selectedPiece.rank.length-1);
+  console.log(selectedPiece.rank);
   removeChild(thisIDhtml,false);
   movedCellID = selectedPiece.Pos;
   removeChild(document.getElementById(movedCellID),false);
@@ -108,6 +109,7 @@ $('#groundTable tr,#skyTable tr').each(function(){
       		if (isWhite){selectedPiece = White.find(obj => obj.Pos == $(this).attr("id"));}
           else{selectedPiece = Black.find(obj => obj.Pos == $(this).attr("id"));}
           selectedCellID = $(this).attr('id');
+          console.log(selectedPiece.rank);
 
           //has to check if the piece is defined in order to get the movement
           if (typeof(selectedPiece) !=='undefined'){

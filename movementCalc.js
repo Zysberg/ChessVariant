@@ -13,20 +13,31 @@ function remInvalidSpaces(arr,Pos,rank){
 			//Second remove any Spaces occupied by Allies, with few exceptions
 			var PosHTML = document.getElementById(Pos), AtSHTML = document.getElementById(arr[s]);
 			if (document.getElementById(arr[s]).firstChild){
-				if (rank.includes("HV")||rank.includes("LUV")){
-					if (AtSHTML.firstChild.src.includes("WhiteS")&&PosHTML.firstChild.src.includes("White")){
+
+					if ((rank.includes("HV"))||rank.includes("LUV")){
+						if (AtSHTML.firstChild.src.includes("WhiteS")&&PosHTML.firstChild.src.includes("White")){
+							continue;
+						}
+						else if (AtSHTML.firstChild.src.includes("BlackS")&&PosHTML.firstChild.src.includes("Black")){
+							continue;
+						}
+						else{
+							if (AtSHTML.firstChild.src.includes("White") && PosHTML.firstChild.src.includes("White")){
+								arr.splice(s,1); s--;
+							}
+							if (AtSHTML.firstChild.src.includes("Black") && PosHTML.firstChild.src.includes("Black")){
+								arr.splice(s,1);s--;
+							}
+						}
 					}
-					else if (AtSHTML.firstChild.src.includes("BlackS")&&PosHTML.firstChild.src.includes("Black")){
+					else{
+						if (AtSHTML.firstChild.src.includes("White") && PosHTML.firstChild.src.includes("White")){
+							arr.splice(s,1); s--;
+						}
+						if (AtSHTML.firstChild.src.includes("Black") && PosHTML.firstChild.src.includes("Black")){
+							arr.splice(s,1);s--;
+						}
 					}
-				}
-				else{
-					if (AtSHTML.firstChild.src.includes("White") && PosHTML.firstChild.src.includes("White")){
-						arr.splice(s,1); s--;
-					}
-					if (AtSHTML.firstChild.src.includes("Black") && PosHTML.firstChild.src.includes("Black")){
-						arr.splice(s,1);s--;
-					}
-				}
 			}
 		}
 	}
@@ -43,6 +54,12 @@ function cardinal(Pos){
 	return ["g"+(RC[0])+" "+(RC[1]-1),"g"+(RC[0])+" "+(RC[1]+1), "g"+(RC[0]+1)+" "+(RC[1]),"g"+(RC[0]-1)+" "+(RC[1])];
 }
 
+function isNotOccupied(string){
+	var fuckyou = document.getElementById(string);
+	console.log(!fuckyou.hasChildNodes(),string);
+	return !fuckyou.hasChildNodes();
+}
+
 function calcAA(Pos){
 	var RC = getRC(Pos);
 	var movement = cardinal(Pos);
@@ -57,61 +74,48 @@ function calcS(Pos,isW){
 		movement = ["g"+(RC[0]-1)+" "+(RC[1]-1),	"g"+(RC[0]-1)+" "+(RC[1]),	"g"+(RC[0]-1)+" "+(RC[1]+1)];
 	}
 	else{
-		movement = ["g"+(RC[0]+1)+" "+(RC[1]+1),	"g"+(RC[0])+" "+(RC[1]+1),	"g"+(RC[0]-1)+" "+(RC[1]+1)];
+		movement = ["g"+(RC[0]+1)+" "+(RC[1]-1),	"g"+(RC[0]+1)+" "+(RC[1]),	"g"+(RC[0]+1)+" "+(RC[1]+1)];
 	}
 	movement = remInvalidSpaces(movement,Pos,"S");
 	return movement;
 }
 
-function calcLUV(Pos){
+function inBounds(R,C){
+	if ((R<10)&&(C<10)&&(R>-1)&&(C>-1)){
+		return true;
+	}
+	return false;
+}
+
+function calcLUV(Pos,hasS){
 	var RC = getRC(Pos);
 	var movement = [];
+	//console.log(document.getElementById(Pos).firstChild.src.includes("S"));
 	if (document.getElementById(Pos).firstChild.src.includes("S")){
 		var stopN = false,stopE=false, stopW=false, stopS = false;
 		var stopNE = false, stopNW = false, stopSE = false, stopSW=false;
-		for (var i=0;i<10;i++){
-			if (!stopN){
-				if (document.getElementById("g"+RC[0]+" "+(RC[1]-i)).firstChild){stopN = true;continue;}
-				movement.push("g"+RC[0]+" "+(RC[1]-i));
-			}
-			if (!stopS){ 
-				if (document.getElementById("g"+RC[0]+" "+(RC[1]+i)).firstChild){stopS = true; continue;}
-				movement.push("g"+RC[0]+" "+(RC[1]+i));
-			}
-			if (!stopE){
-				if (document.getElementById("g"+(RC[0]+i)+" "+RC[1]).firstChild){stopE = true; continue;}
-				movement.push("g"+(RC[0]+i)+" "+RC[1]);		
-			}
-			if (!stopW){
-				if (document.getElementById("g"+(RC[0]-i)+" "+RC[1]).firstChild){stopW = true; continue;}
-				movement.push("g"+(RC[0]-i)+" "+RC[1]);		
-			}
-			if(!stopSE){
-				if (document.getElementById("g"+(RC[0]+i)+""+(RC[1]+i)).firstChild){stopSE = true; continue;}
-				movement.push("g"+(RC[0]+i)+""+(RC[1]+i));		
-			}
-			if(!stopNE){
-				if (document.getElementById("g"+(RC[0]-i)+""+(RC[1]+i)).firstChild){stopNE = true; continue;}
-				movement.push("g"+(RC[0]-i)+""+(RC[1]+i));		
-			}
-			if(!stopSW){
-				if (document.getElementById("g"+(RC[0]+i)+""+(RC[1]-i)).firstChild){stopSW = true; continue;}
-				movement.push("g"+(RC[0]+i)+""+(RC[1]-i));		
-			}
-			if(!stopNW){
-				if (document.getElementById("g"+(RC[0]-i)+""+(RC[1]-i)).firstChild){stopNW = true; continue;}
-				movement.push("g"+(RC[0]-i)+""+(RC[1]-i));		
-			}
+		for (var i=1;i<10;i++){
+			if ((inBounds(RC[0]-i,RC[1]))&&(isNotOccupied('g'+(RC[0]-i)+" "+RC[1]))&&!stopN){movement.push('g'+(RC[0]-i)+" "+RC[1]);} else{stopN=true;console.log("stopN")};		
+			if ((inBounds(RC[0]+i,RC[1]))&&(isNotOccupied('g'+(RC[0]+i)+" "+RC[1]))&&!stopS){movement.push('g'+(RC[0]+i)+" "+RC[1]);} else{stopS=true;console.log("stopS")};
+			if ((inBounds(RC[0],RC[1]+i))&&(isNotOccupied('g'+RC[0]+" "+(RC[1]+i)))&&!stopE){movement.push('g'+RC[0]+" "+(RC[1]+i));} else{stopE=true;}
+			if ((inBounds(RC[0],RC[1]-i))&&(isNotOccupied('g'+RC[0]+" "+(RC[1]-i)))&&!stopW){movement.push('g'+RC[0]+" "+(RC[1]-i));} else{stopW=true;}
+			if ((inBounds(RC[0]+i,RC[1]-i))&&(isNotOccupied('g'+(RC[0]+i)+" "+(RC[1]-i)))&&!stopSW){movement.push('g'+(RC[0]+i)+" "+(RC[1]-i));} else{stopSW=true;}
+			if ((inBounds(RC[0]-i,RC[1]-i))&&(isNotOccupied('g'+(RC[0]-i)+" "+(RC[1]-i)))&&!stopNW){movement.push('g'+(RC[0]-i)+" "+(RC[1]-i));} else{stopNW=true;}
+			if ((inBounds(RC[0]-i,RC[1]+i))&&(isNotOccupied('g'+(RC[0]-i)+" "+(RC[1]+i)))&&!stopSE){movement.push('g'+(RC[0]-i)+" "+(RC[1]+i));} else{stopSE=true;}
+			if ((inBounds(RC[0]+i,RC[1]+i))&&(isNotOccupied('g'+(RC[0]+i)+" "+(RC[1]+i)))&&!stopNE){movement.push('g'+(RC[0]+i)+" "+(RC[1]+i));} else{stopNE=true;}
 		}
 	}
 	else{
-		movement.push("g"+(RC[0]-1)+""+(RC[1]-1));
-		movement.push("g"+(RC[0]+1)+""+(RC[1]+1));
-		movement.push("g"+(RC[0]-1)+""+(RC[1]+1));
-		movement.push("g"+(RC[0]+1)+""+(RC[1]-1));
-		movement.concat(cardinal(Pos));
+		movement.push("g"+(RC[0]-1)+" "+(RC[1]-1));
+		movement.push("g"+(RC[0]+1)+" "+(RC[1]+1));
+		movement.push("g"+(RC[0]-1)+" "+(RC[1]+1));
+		movement.push("g"+(RC[0]+1)+" "+(RC[1]-1));
+		var conc = cardinal(Pos);
+		movement = movement.concat(conc);
 	}
-	movement = remInvalidSpaces(movement,Pos,"LUV");
+	if (hasS){movement = remInvalidSpaces(movement,Pos,"LUVS");}
+	else{movement = remInvalidSpaces(movement,Pos,"LUV")};
+	console.log(movement,hasS);
 	return movement;
 }
 
@@ -287,19 +291,21 @@ function calcB(Pos,Dir){
 }
 
 function calcMovement(SelectedPiece){
-	if (SelectedPiece.rank.includes("S")){
-		return calcS(SelectedPiece.Pos,SelectedPiece.isW);
+	if (SelectedPiece.rank.includes("LUVS")){
+		return calcLUV(SelectedPiece.Pos,true);
+	}
+	if (SelectedPiece.rank.includes("LUV")){
+		console.log(calcLUV(SelectedPiece.Pos));
+		return calcLUV(SelectedPiece.Pos,false);
 	}
 	if (SelectedPiece.rank.includes("HV")){
 		return calcHV(SelectedPiece.Pos);
 	}
+	if (SelectedPiece.rank.includes("S")){
+		return calcS(SelectedPiece.Pos,SelectedPiece.isW);
+	}
 	if (SelectedPiece.rank.includes("TT")){
 		return calcT(SelectedPiece.Pos);
-	}
-	if (SelectedPiece.rank.includes("LUV")){
-		//console.log(calcLUV(S));
-		return calcLUV(SelectedPiece.Pos);
-
 	}
 	if (SelectedPiece.rank.includes("AA")){
 		return calcAA(SelectedPiece.Pos);
