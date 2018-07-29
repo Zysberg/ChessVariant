@@ -40,7 +40,7 @@ function CarriablePiece(rank,isW,health,Pos,html,movement,html2){
 	return obj;
 }
 
-function FlyingPiece(rank,isW,health,Pos,html,orientation){
+function FlyingPiece(rank,isW,health,Pos,html,movement,orientation){
     var obj = Piece(rank,isW,health,Pos,html);
     obj.movement = movement;
     obj.orientation = orientation; //1=N, 2=E, 3=S, 4=W;
@@ -75,6 +75,11 @@ function generatePiece(rank,isW,MCP,health,pos,ID){
     	var html2 = document.createElement("IMG");
     	html2.src = ((isW) ? wDir:bDir)+"T.png";
     	return F(pos,isW,html,html2);
+    }
+
+    if(rank=="J"){
+        var Ori = ((isW) ? 1:3);
+        return FlyingPiece(rank,isW,health,pos,html,[],Ori);
     }
     return Piece(rank+ID,isW,health,pos,html);
 }

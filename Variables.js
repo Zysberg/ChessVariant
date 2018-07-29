@@ -55,10 +55,11 @@ for (var i = 0;i<10;i++){
     }
 
     if (i<5){
+        //Js
         whitePos = (i==0 ? "s8 1" : (i==1)? "s8 3": (i==2)? "s7 4": (i==3)? "s8 5": "s8 8");
         blackPos = (i==0 ? "s1 1": (i==1)? "s1 4": (i==2)? "s2 5":(i==3)? "s1 6": "s1 8");
-        whiteJs[i] = generatePiece("J",true,"M",4,whitePos,i);
-        blackJs[i] = generatePiece("J",false,"M",4,blackPos,i);
+        whiteJs[i] = generatePiece("J",true,"P",4,whitePos,i);
+        blackJs[i] = generatePiece("J",false,"P",4,blackPos,i);
 
     }
 

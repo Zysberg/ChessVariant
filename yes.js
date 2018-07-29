@@ -43,19 +43,37 @@ function resetAndSwitch(Turn){
  selectedPiece = undefined;
  selectedCellMovement = [];
  selectedCellDamage = [];
-    if (Turn){
-        isWhite = (isWhite==true ? false:true);
-    }
+ isWhite = (isWhite==true) ? false:true;
 }
 
 function move(cell){
+  if (selectedPiece.rank.includes("J")||selectedPiece.rank.includes("B")){
+    selectedPiece.orientation = rotateJB(selectedPiece.Pos,cell.attr('id'));
+    var rotate;
+    switch(selectedPiece.orientation) {
+      case 1:
+          rotate = 0;
+          break;
+      case 2:
+          rotate = 90;
+          break;
+      case 3:
+          rotate = 180;
+          break;
+      default:
+          rotate = 270;
+          console.log("help");
+  } 
+    console.log(rotate); 
+    selectedPiece.html.style.transform = "rotate("+rotate+"deg)";
+  }
   selectedPiece.Pos = cell.attr('id');
   cell.append(selectedPiece.html);
 }
 
 function bindSoldierWithCarriablePiece(isWhite,thisID){
   var thisIDhtml = document.getElementById(thisID);
-  selectedPiece.Soldier = (isWhite) ? White.find(obj => obj.Pos == thisIDhtml.getAttribute("id")):Black.find(obj => obj.Pos == thisIDhtml.getAttribute("id"));            
+  selectedPiece.Soldier = (isWhite==true) ? White.find(obj => obj.Pos == thisIDhtml.getAttribute("id")):Black.find(obj => obj.Pos == thisIDhtml.getAttribute("id"));            
   selectedPiece.Soldier.Pos = "";
   selectedPiece.rank = selectedPiece.rank.substring(0,selectedPiece.rank.length-1)+"S"+selectedPiece.rank.charAt(selectedPiece.rank.length-1);
   console.log(selectedPiece.rank);
@@ -114,6 +132,7 @@ $('#groundTable tr,#skyTable tr').each(function(){
           //has to check if the piece is defined in order to get the movement
           if (typeof(selectedPiece) !=='undefined'){
             selectedPiece.movement = calcMovement(selectedPiece);
+            console.log(selectedPiece.movement);
             selectedCellMovement = selectedPiece.movement;
               selectedPiece.movement.forEach(function(elm){
                 if (document.getElementById("hMove").checked){
@@ -126,7 +145,7 @@ $('#groundTable tr,#skyTable tr').each(function(){
           //defining the action of movement here    
           if ( $(this).children().length > 0 ) {
             //If player wants to carry a soldier with HV or LUV
-            if ((selectedPiece.rank.includes("HV")||selectedPiece.rank.includes('LUV'))&&convert2htmlID($(this)).firstChild.getAttribute("src").includes('WhiteS')){
+            if ((selectedPiece.rank.includes("HV")||selectedPiece.rank.includes('LUV'))&&(convert2htmlID($(this)).firstChild.getAttribute("src").includes('WhiteS'))||convert2htmlID($(this)).firstChild.getAttribute("src").includes('BlackS')){
               if (selectedPiece.Soldier==""){
                 bindSoldierWithCarriablePiece(isWhite,$(this).attr('id'));
               }

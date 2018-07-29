@@ -13,7 +13,6 @@ function remInvalidSpaces(arr,Pos,rank){
 			//Second remove any Spaces occupied by Allies, with few exceptions
 			var PosHTML = document.getElementById(Pos), AtSHTML = document.getElementById(arr[s]);
 			if (document.getElementById(arr[s]).firstChild){
-
 					if ((rank.includes("HV"))||rank.includes("LUV")){
 						if (AtSHTML.firstChild.src.includes("WhiteS")&&PosHTML.firstChild.src.includes("White")){
 							continue;
@@ -173,7 +172,7 @@ function calcT(Pos){
 function calcJ(Pos,Dir){	//N=1, E=2, S=3, W=4
 	var RC = getRC(Pos);			
 	var movement = [];
-	if (Dir ==1){
+	if (Dir ==3){
 		for (var i=-2;i<3;i++){
 			if (i==-1||i==1){
 				movement.push("s"+(RC[0])+" "+(RC[1]+i));
@@ -187,7 +186,7 @@ function calcJ(Pos,Dir){	//N=1, E=2, S=3, W=4
 			movement.push("s"+(RC[0]-1)+" "+(RC[1]+i));
 		}
 	}
-	else if (Dir == 2){
+	else if (Dir == 4){
 		for (var i=-1;i<4;i++){
 			if (i==0){
 				movement.push("s"+(RC[0]+1)+" "+RC[1]);
@@ -204,7 +203,7 @@ function calcJ(Pos,Dir){	//N=1, E=2, S=3, W=4
 		}
 	}
 
-	else if (Dir ==3){
+	else if (Dir ==1){
 		for (var i=-2;i<3;i++){
 			if (i==-1||i==1){
 				movement.push("s"+(RC[0])+" "+(RC[1]+i));
@@ -219,7 +218,7 @@ function calcJ(Pos,Dir){	//N=1, E=2, S=3, W=4
 		}
 	}
 
-	else if (Dir==4){
+	else if (Dir==2){
 		for (var i=-3;i<2;i++){
 			if (i==0){
 				movement.push("s"+(RC[0]+1)+" "+(RC[1]));
@@ -316,4 +315,16 @@ function calcMovement(SelectedPiece){
 	if (SelectedPiece.rank.includes("B")){
 		return calcB(SelectedPiece.Pos,SelectedPiece.orientation);
 	}
+}
+
+function rotateJB(from,to){
+	var fromRC = getRC(from);
+	var toRC = getRC(to);
+
+	toR = toRC[0]-fromRC[0], absR = Math.abs(toR);
+	toC = toRC[1]-fromRC[1], absC = Math.abs(toC);
+	if (absC<absR){return (toR>0) ? 3:1;}
+	return (toC>0) ? 2:4;
+
+
 }
