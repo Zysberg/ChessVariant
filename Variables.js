@@ -9,6 +9,7 @@ var selectedPiece = undefined;
 var selectedCellMovement = [];
 var selectedCellDamage = [];
 var turnCounter=1;
+var selectedCellDeploy = [];
 
 var isWhite = true;
 var moveCount = 0;

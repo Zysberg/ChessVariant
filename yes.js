@@ -22,6 +22,8 @@ because of radii of movement of pieces, consider making board bigger for start o
 either have predecided aerial formations/ snake draft positions
 
 **/ 
+
+//Helper functions for processing action events
 function convert2htmlID(jQ){
   return document.getElementById(jQ.attr('id'));
 }
@@ -35,7 +37,7 @@ function existsinArray(arg, arr){
     return false;
 }
 
-function resetAndSwitch(Turn){
+function resetAndSwitch(){
  turnCounter=0;
  selectedCellID = "";
  movedCellID = "";
@@ -76,15 +78,23 @@ function bindSoldierWithCarriablePiece(isWhite,thisID){
   selectedPiece.Soldier = (isWhite==true) ? White.find(obj => obj.Pos == thisIDhtml.getAttribute("id")):Black.find(obj => obj.Pos == thisIDhtml.getAttribute("id"));            
   selectedPiece.Soldier.Pos = "";
   selectedPiece.rank = selectedPiece.rank.substring(0,selectedPiece.rank.length-1)+"S"+selectedPiece.rank.charAt(selectedPiece.rank.length-1);
-  console.log(selectedPiece.rank);
+  //switch html & html2 b = [a, a = b][0];
   removeChild(thisIDhtml,false);
   movedCellID = selectedPiece.Pos;
   removeChild(document.getElementById(movedCellID),false);
-  var temp = selectedPiece.html;
-  selectedPiece.html = selectedPiece.html2;
-  selectedPiece.html2 = selectedPiece.html;
-  thisIDhtml.append(selectedPiece.html);  
+  thisIDhtml.append(selectedPiece.html2);  
   selectedPiece.Pos = thisID;
+}
+
+function unbindSoldier(jQthis){
+          var getS = selectedPiece.Soldier;
+          getS.Pos = jQthis.attr("id");
+          selectedPiece.Soldier = undefined;
+            empty(document.getElementById(selectedPiece.Pos));
+            console.log( document.getElementById(selectedPiece.Pos));
+            document.getElementById(selectedPiece.Pos).appendChild(selectedPiece.html);
+            jQthis.append(getS.html);
+            //switch html&html2 first
 }
 
 function removeChild(html,isJQ){
@@ -100,48 +110,76 @@ function removeChild(html,isJQ){
 function tick(){
   turnCounter++;
   if (turnCounter==2){
-    resetAndSwitch(true);
+    resetAndSwitch();
   }
 }
 
-//This is where I'll figure out how to move pieces...
+function empty(node){
+while (node.hasChildNodes()) {
+  node.removeChild(node.firstChild);
+}
+}
 
+var DKEY = false;
+var FKEY = false;
 
+$(window).keydown(function(evt) {
+  if (evt.which == 68) { // ctrl
+    DKEY = true;
+  }
+  if (evt.which ==70){
+    FKEY=true;
+  }}).keyup(function(evt) {
+  if (evt.which == 68) { // ctrl
+    DKEY = false;
+  }
+  if (evt.which ==70){
+    FKEY=false;
+  }});
+
+//User interaction
 $('#groundTable tr,#skyTable tr').each(function(){
     $(this).find('td').each(function(){
     	$(this).click(function(){
+
         //darkens selected cell
     		$(this).attr("style","background-color:#777777");
 
-
-
+        //DEPLOYMENT
+        if (selectedCellDeploy.length>0){
+            unbindSoldier($(this));
+        }
 
         //MOVEMENT
-
-
-        //check to see if this id is within movement
-        if ((typeof(selectedPiece)==='undefined')||!(existsinArray($(this).attr("id"),selectedCellMovement))){
-          selectedCellMovement = [];
-
+        //check to see if this id is within movement or deploy
+        if (!(existsinArray($(this).attr("id"),selectedCellMovement))&&!(existsinArray($(this).attr("id"),selectedCellDeploy))) {
+          selectedCellMovement = [],selectedCellDeploy = [];
           //calls the Piece Object at the position
       		if (isWhite){selectedPiece = White.find(obj => obj.Pos == $(this).attr("id"));}
           else{selectedPiece = Black.find(obj => obj.Pos == $(this).attr("id"));}
           selectedCellID = $(this).attr('id');
-          console.log(selectedPiece.rank);
+          console.log(selectedPiece);
 
-          //has to check if the piece is defined in order to get the movement
-          if (typeof(selectedPiece) !=='undefined'){
-            selectedPiece.movement = calcMovement(selectedPiece);
-            console.log(selectedPiece.movement);
-            selectedCellMovement = selectedPiece.movement;
+          //check to see if deployable
+          if (DKEY&&(!(typeof(selectedPiece)==='undefined'))&&(selectedPiece.rank.includes("HVS")||selectedPiece.rank.includes("LUVS"))){
+            selectedCellDeploy = remInvalidSpaces(cardinal(selectedPiece.Pos),selectedPiece.Pos,"HVS");
+            selectedCellDeploy.forEach(function(elm){document.getElementById(elm).setAttribute("style","background-color:#0000FF");});
+          }
+          else{
+            //collects and highlights available places to move piece
+            if (typeof(selectedPiece) !=='undefined'){
+              selectedPiece.movement = calcMovement(selectedPiece);
+              selectedCellMovement = selectedPiece.movement;
               selectedPiece.movement.forEach(function(elm){
                 if (document.getElementById("hMove").checked){
                   document.getElementById(elm).setAttribute("style","background-color:#ffff00"); //highlight movement
                 }
               });
+            }
           }
     	  }
-        else{
+
+        else if (selectedCellDeploy==0){
           //defining the action of movement here    
           if ( $(this).children().length > 0 ) {
             //If player wants to carry a soldier with HV or LUV
@@ -150,16 +188,15 @@ $('#groundTable tr,#skyTable tr').each(function(){
                 bindSoldierWithCarriablePiece(isWhite,$(this).attr('id'));
               }
             }
-            else{
-              //To capture a piece
-              $(this).empty();
-              move($(this));
+            else{$(this).empty(); move($(this));//To capture a piece 
             }
           }
-        else{ move($(this));}             //To move a piece    
+        else{move($(this));}//To move a piece    
         tick();
       }
       //MOVEMENT
+
+
       });
     });
 });

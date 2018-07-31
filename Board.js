@@ -55,9 +55,6 @@ function placePiece(obj){
 	}
 }
 
-
-
-
 //Calls Necessary Functions
 makeBoard();
 

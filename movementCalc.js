@@ -13,7 +13,7 @@ function remInvalidSpaces(arr,Pos,rank){
 			//Second remove any Spaces occupied by Allies, with few exceptions
 			var PosHTML = document.getElementById(Pos), AtSHTML = document.getElementById(arr[s]);
 			if (document.getElementById(arr[s]).firstChild){
-					if ((rank.includes("HV"))||rank.includes("LUV")){
+					if ((rank.includes("HV0"))||rank.includes("HV1")||rank.includes("LUV0")||rank.includes("LUV1")){
 						if (AtSHTML.firstChild.src.includes("WhiteS")&&PosHTML.firstChild.src.includes("White")){
 							continue;
 						}
@@ -86,7 +86,7 @@ function inBounds(R,C){
 	return false;
 }
 
-function calcLUV(Pos,hasS){
+function calcLUV(Pos,hasS,rank){
 	var RC = getRC(Pos);
 	var movement = [];
 	//console.log(document.getElementById(Pos).firstChild.src.includes("S"));
@@ -113,12 +113,12 @@ function calcLUV(Pos,hasS){
 		movement = movement.concat(conc);
 	}
 	if (hasS){movement = remInvalidSpaces(movement,Pos,"LUVS");}
-	else{movement = remInvalidSpaces(movement,Pos,"LUV")};
+	else{movement = remInvalidSpaces(movement,Pos,rank)};
 	console.log(movement,hasS);
 	return movement;
 }
 
-function calcHV(Pos){
+function calcHV(Pos,rank){
 	var RC = getRC(Pos);
 	var movement = [];
 	//Standard Moves
@@ -149,8 +149,8 @@ function calcHV(Pos){
 		movement.push("g"+(RC[0]+1)+" "+(RC[1]-1));
 		movement.push("g"+(RC[0]-1)+" "+(RC[1]+1));
 	}
-
-	movement = remInvalidSpaces(movement,Pos,"HV");
+	console.log(movement);
+	movement = remInvalidSpaces(movement,Pos,rank);
 	return movement;
 }
 
@@ -178,7 +178,7 @@ function calcJ(Pos,Dir){	//N=1, E=2, S=3, W=4
 				movement.push("s"+(RC[0])+" "+(RC[1]+i));
 			}
 			if (i==0){
-				for (var j = -3; j<2;j++){
+				for (var j = 2; j>-1;j--){
 					if (j==-1 || j==0){continue;}
 					movement.push("s"+(RC[0]+j)+" "+(RC[1]));
 				}
@@ -209,7 +209,7 @@ function calcJ(Pos,Dir){	//N=1, E=2, S=3, W=4
 				movement.push("s"+(RC[0])+" "+(RC[1]+i));
 			}
 			if (i==0){
-				for (var j = -1; j<4;j++){
+				for (var j = 1; j>-3;j--){
 					if (j==0){continue;}
 					movement.push("s"+(RC[0]+j)+" "+(RC[1]));
 				}
@@ -290,15 +290,11 @@ function calcB(Pos,Dir){
 }
 
 function calcMovement(SelectedPiece){
-	if (SelectedPiece.rank.includes("LUVS")){
-		return calcLUV(SelectedPiece.Pos,true);
-	}
 	if (SelectedPiece.rank.includes("LUV")){
-		console.log(calcLUV(SelectedPiece.Pos));
-		return calcLUV(SelectedPiece.Pos,false);
+		return calcLUV(SelectedPiece.Pos,false,SelectedPiece.rank);
 	}
 	if (SelectedPiece.rank.includes("HV")){
-		return calcHV(SelectedPiece.Pos);
+		return calcHV(SelectedPiece.Pos,SelectedPiece.rank);
 	}
 	if (SelectedPiece.rank.includes("S")){
 		return calcS(SelectedPiece.Pos,SelectedPiece.isW);
@@ -325,6 +321,8 @@ function rotateJB(from,to){
 	toC = toRC[1]-fromRC[1], absC = Math.abs(toC);
 	if (absC<absR){return (toR>0) ? 3:1;}
 	return (toC>0) ? 2:4;
+}
 
-
+function calcDelployment(Pos){
+	return remInvalidSpaces(cardinal(Pos),Pos,"S");
 }
