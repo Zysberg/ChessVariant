@@ -57,12 +57,12 @@ function generatePiece(rank,isW,MCP,health,pos,ID){
         html.style.transform = "rotate(180deg)";
     }
     if (MCP=="M"){
-    	if (rank=="AA"){
-    		var html2 = document.createElement("IMG");
-    		html2.src = ((isW) ? wDir:bDir)+"D.png";
-    		html2.setAttribute("class",(rank+ID));
-    		return MovablePiece(rank,isW,health,pos,html,[],html2);
-    	}
+    	// if (rank=="AA"){
+    	// 	var html2 = document.createElement("IMG");
+    	// 	html2.src = ((isW) ? wDir:bDir)+"D.png";
+    	// 	html2.setAttribute("class",(rank+ID));
+    	// 	return MovablePiece(rank,isW,health,pos,html,[],html2);
+    	// }
         return MovablePiece(rank+ID,isW,health,pos,html,[]);
     }
     if (MCP=="C"){

@@ -16,7 +16,7 @@ img{
 }
 
 #ground,#sky{display: inline-block;}
-#container{	text-align: center;}
+.container{	text-align: center;}
 
 #ijMod2is0{background-color:#195919;}
 

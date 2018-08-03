@@ -45,6 +45,7 @@ function resetAndSwitch(){
  selectedPiece = undefined;
  selectedCellMovement = [];
  selectedCellDamage = [];
+ selectedCellDeploy = [];
  isWhite = (isWhite==true) ? false:true;
 }
 
@@ -78,11 +79,12 @@ function bindSoldierWithCarriablePiece(isWhite,thisID){
   selectedPiece.Soldier = (isWhite==true) ? White.find(obj => obj.Pos == thisIDhtml.getAttribute("id")):Black.find(obj => obj.Pos == thisIDhtml.getAttribute("id"));            
   selectedPiece.Soldier.Pos = "";
   selectedPiece.rank = selectedPiece.rank.substring(0,selectedPiece.rank.length-1)+"S"+selectedPiece.rank.charAt(selectedPiece.rank.length-1);
+  selectedPiece.html = [selectedPiece.html2, selectedPiece.html2 = selectedPiece.html][0];
   //switch html & html2 b = [a, a = b][0];
   removeChild(thisIDhtml,false);
   movedCellID = selectedPiece.Pos;
   removeChild(document.getElementById(movedCellID),false);
-  thisIDhtml.append(selectedPiece.html2);  
+  thisIDhtml.append(selectedPiece.html);  
   selectedPiece.Pos = thisID;
 }
 
@@ -90,6 +92,7 @@ function unbindSoldier(jQthis){
           var getS = selectedPiece.Soldier;
           getS.Pos = jQthis.attr("id");
           selectedPiece.Soldier = undefined;
+          selectedPiece.html = [selectedPiece.html2, selectedPiece.html2 = selectedPiece.html][0];
             empty(document.getElementById(selectedPiece.Pos));
             console.log( document.getElementById(selectedPiece.Pos));
             document.getElementById(selectedPiece.Pos).appendChild(selectedPiece.html);
@@ -114,14 +117,14 @@ function tick(){
   }
 }
 
-function empty(node){
-while (node.hasChildNodes()) {
-  node.removeChild(node.firstChild);
+function flicker (jThis){
+  window.setTimeout(function(){jThis.attr("style","background-color: #741A1A;")},1000);
+  window.setTimeout(function(){jThis.attr("style","background-color: #FF0000;")},1000);
+  window.setTimeout(function(){jThis.attr("style","background-color: #741A1A;")},1000);
 }
-}
+function empty(node){while (node.hasChildNodes()) {node.removeChild(node.firstChild);}}
 
-var DKEY = false;
-var FKEY = false;
+var DKEY = false, FKEY = false;
 
 $(window).keydown(function(evt) {
   if (evt.which == 68) { // ctrl
@@ -152,7 +155,7 @@ $('#groundTable tr,#skyTable tr').each(function(){
 
         //MOVEMENT
         //check to see if this id is within movement or deploy
-        if (!(existsinArray($(this).attr("id"),selectedCellMovement))&&!(existsinArray($(this).attr("id"),selectedCellDeploy))) {
+        if (!(existsinArray($(this).attr("id"),selectedCellMovement))&&!(existsinArray($(this).attr("id"),selectedCellDeploy)) &&!(existsinArray(($(this).attr("id")),selectedCellDamage))) {
           selectedCellMovement = [],selectedCellDeploy = [];
           //calls the Piece Object at the position
       		if (isWhite){selectedPiece = White.find(obj => obj.Pos == $(this).attr("id"));}
@@ -165,13 +168,19 @@ $('#groundTable tr,#skyTable tr').each(function(){
             selectedCellDeploy = remInvalidSpaces(cardinal(selectedPiece.Pos),selectedPiece.Pos,"HVS");
             selectedCellDeploy.forEach(function(elm){document.getElementById(elm).setAttribute("style","background-color:#0000FF");});
           }
+
+          if (FKEY&&(!(typeof(selectedPiece)==='undefined'))){
+            selectedCellDamage = dRemInvalidSpaces(dCalc(selectedPiece));
+            console.log(selectedCellDamage);
+            selectedCellDamage.forEach(function(elm){document.getElementById(elm).setAttribute("style","background-color:#FF0000");});
+          }
           else{
             //collects and highlights available places to move piece
             if (typeof(selectedPiece) !=='undefined'){
               selectedPiece.movement = calcMovement(selectedPiece);
               selectedCellMovement = selectedPiece.movement;
               selectedPiece.movement.forEach(function(elm){
-                if (document.getElementById("hMove").checked){
+                if (document.getElementById("hMove").checked&&!DKEY&&!FKEY){
                   document.getElementById(elm).setAttribute("style","background-color:#ffff00"); //highlight movement
                 }
               });
@@ -179,24 +188,40 @@ $('#groundTable tr,#skyTable tr').each(function(){
           }
     	  }
 
-        else if (selectedCellDeploy==0){
+        else if (selectedCellDeploy==0){ //==0 same as ==[]
+          if (selectedCellDamage.length>0){
+            flicker($(this));
+            var dmgPiece={};
+            console.log($(this).attr("id"));
+            if (isWhite){dmgPiece = Black.find(obj => obj.Pos == $(this).attr("id"));}
+            else{dmgPiece = White.find(obj => obj.Pos == $(this).attr("id"));}
+            console.log(dmgPiece.health);
+            dmgPiece.health = dmgPiece.health-1;
+            console.log(dmgPiece.health);
+            if (dmgPiece.health==0){
+              $(this).empty();
+              if (dmgPiece.rank.includes('F')){
+                $('#ground').empty();
+                $('#sky').empty();
+                if (isWhite){$("#Game").text("WHITE WINS")}
+                else{$("#Game").text("BLACK WINS")}
+              }
+            }
+            tick();
+        }
           //defining the action of movement here    
-          if ( $(this).children().length > 0 ) {
+          else if ( $(this).children().length > 0 ) {
             //If player wants to carry a soldier with HV or LUV
             if ((selectedPiece.rank.includes("HV")||selectedPiece.rank.includes('LUV'))&&(convert2htmlID($(this)).firstChild.getAttribute("src").includes('WhiteS'))||convert2htmlID($(this)).firstChild.getAttribute("src").includes('BlackS')){
               if (selectedPiece.Soldier==""){
                 bindSoldierWithCarriablePiece(isWhite,$(this).attr('id'));
               }
             }
-            else{$(this).empty(); move($(this));//To capture a piece 
+            else{$(this).empty(); move($(this));tick();//To capture a piece 
             }
           }
-        else{move($(this));}//To move a piece    
-        tick();
+          else{move($(this)); tick();}//To move a piece    
       }
-      //MOVEMENT
-
-
       });
     });
 });
