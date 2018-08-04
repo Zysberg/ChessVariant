@@ -241,51 +241,45 @@ function calcJ(Pos,Dir){	//N=1, E=2, S=3, W=4
 function calcB(Pos,Dir){
 	var RC = getRC(Pos);			
 	var movement = [];
-	if (Dir = 1){
-		for (var i = -1; i<2;i++){
-			if (i==-1||i==1){
-				movement.push("s"+(RC[0])+" "+(RC[1]+i));
-			}
-			if(i==0){
+	console.log("B",Dir);
+	if (Dir == 1){
+		for (var i=-1;i<2;i++){
+			if (i==0){
 				movement.push("s"+(RC[0]-2)+" "+(RC[1]));
 			}
 			movement.push("s"+(RC[0]-1)+" "+(RC[1]+i));
 		}
+		console.log(movement);
 	}
-	if (Dir = 2){
-		for (var i = -1; i<2;i++){
-			if (i==-1||i==1){
-				movement.push("s"+(RC[0]+i)+" "+(RC[1]));
-			}
-			if(i==0){
-				movement.push("s"+(RC[0])+" "+(RC[1]+2));
+
+	if (Dir == 2){
+		for (var i = -1;i<2;i++){
+			if (i==0){
+				movement.push("s"+RC[0]+" "+(RC[1]+2));
 			}
 			movement.push("s"+(RC[0]+i)+" "+(RC[1]+1));
 		}
 	}
-	if (Dir = 3){
-		for (var i = -1; i<2;i++){
-			if (i==-1||i==1){
-				movement.push("s"+(RC[0])+" "+(RC[1]+i));
-			}
-			if(i==0){
+
+	if (Dir == 3){
+
+		for (var i=-1;i<2;i++){
+			if (i==0){
 				movement.push("s"+(RC[0]+2)+" "+(RC[1]));
 			}
 			movement.push("s"+(RC[0]+1)+" "+(RC[1]+i));
 		}
 	}
-	if (Dir = 4){
-		for (var i = -1; i<2;i++){
-			if (i==-1||i==1){
-				movement.push("s"+(RC[0]+i)+" "+(RC[1]));
+	if (Dir == 4){
+		for (var i = -1;i<2;i++){
+			if (i==0){
+				movement.push("s"+RC[0]+" "+(RC[1]-2));
 			}
-			if(i==0){
-				movement.push("s"+(RC[0])+" "+(RC[1]-2));
-			}
-			movement.push("s"+(RC[0]+i)+" "+(RC[1]-1));
+			movement.push("s"+RC[0]+i+" "+(RC[1]-1));
 		}
 	}
 	movement = remInvalidSpaces(movement,Pos,"B");
+	console.log(movement);
 	return movement;
 }
 

@@ -77,7 +77,7 @@ function generatePiece(rank,isW,MCP,health,pos,ID){
     	return F(pos,isW,html,html2);
     }
 
-    if(rank=="J"){
+    if(rank=="J"||rank=="B"){
         var Ori = ((isW) ? 1:3);
         return FlyingPiece(rank,isW,health,pos,html,[],Ori);
     }

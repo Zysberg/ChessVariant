@@ -23,3 +23,10 @@ img{
 #ijMod2is1{background-color:#339933;}
 
 .hMovement{background-color:#ffff00;}
+
+#Turn{
+	height:35px;
+	width: 35px;
+	margin:auto;
+	background-color: #FFFFFF;
+}

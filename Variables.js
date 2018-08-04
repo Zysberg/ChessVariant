@@ -24,8 +24,8 @@ var blackSs = [], whiteSs = [], blackAAs = [],whiteAAs = [], blackLUVs = [],whit
 var bF = generatePiece("F",false,"P",10,"g0 5",0);
 var wF = generatePiece("F",true,"P", 10, "g9 4",0);
 //Bombers
-var bB = generatePiece("B",false,"M",6,"s1 5",0);
-var wB = generatePiece("B",true,"M",6,"s8 4",0);
+var bB = generatePiece("B",false,"F",8,"s1 5",0);
+var wB = generatePiece("B",true,"F",8,"s8 4",0);
 
 //generates the other pieces
 for (var i = 0;i<10;i++){
