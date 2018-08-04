@@ -1,4 +1,5 @@
 function dRemInvalidSpaces(arr){
+	console.log(arr);
 	//First, remove the out-of-bounds spaces
 	for (var s = 0; s<arr.length; s++){
 		var AtS = arr[s].substring(1);
@@ -8,15 +9,15 @@ function dRemInvalidSpaces(arr){
 			s--;
 			continue;
 		}
-	return arr;
 	}
+	return arr;
 };
 
 function dCalcS(Pos, isW){ return calcS(Pos,isW);}
 
 function dCalcLUV(Pos,isW){
 	if (document.getElementById(Pos).firstChild.src.includes("S")){
-		return calaS(Pos,isW);	
+		return calcS(Pos,isW);	
 	}
 	return [];
 }
@@ -76,10 +77,12 @@ function dCalcAA(Pos){
 	damage.push("s"+(RC[0]-2)+" "+(RC[1]-2));
 	damage.push("s"+(RC[0]+2)+" "+(RC[1]+2));
 	damage.push("s"+(RC[0]-2)+" "+(RC[1]+2));
+
+	return dRemInvalidSpaces(damage);
 }
 
 function dCalcJ(Pos, Dir){ 
-	var damage = [];
+	var damage = [], RC = getRC(Pos);
 	if (Dir == 1){
 		for (var i=-1;i<2;i++){
 			damage.push("s"+(RC[0]-3)+" "+(RC[1]+i));
@@ -155,5 +158,8 @@ function dCalc(SelectedPiece){
 	}
 	if (SelectedPiece.rank.includes("B")){
 		return dCalcB(SelectedPiece.Pos,SelectedPiece.orientation);
+	}
+	if (SelectedPiece.rank.includes("AA")){
+		return dCalcAA(SelectedPiece.Pos);
 	}
 }

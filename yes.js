@@ -51,7 +51,6 @@ $('#groundTable tr,#skyTable tr').each(function(){
 
           if (FKEY&&(!(typeof(selectedPiece)==='undefined'))){
             selectedCellDamage = dRemInvalidSpaces(dCalc(selectedPiece));
-            console.log(selectedCellDamage);
             selectedCellDamage.forEach(function(elm){document.getElementById(elm).setAttribute("style","background-color:#FF0000");});
           }
           else{
@@ -106,11 +105,13 @@ $('#groundTable tr,#skyTable tr').each(function(){
               }
             }
             else{
+              //Capturing Pieces
               $(this).empty(); 
               move($(this)); 
               if ($(this).attr("id").includes("s")){
                 $(this).empty();
                 console.log("oo");
+                //Plane captures other plane
                 planeCrash($(this).attr("id"));
               }
               checkWinCondition($(this));

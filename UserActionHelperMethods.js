@@ -142,7 +142,7 @@ function damageChild(Pos){
     if (P.health<1){
       empty(document.getElementById(Pos));
     }
-    document.getElementById(Pos).setAttribute("style","background-color:#741A1A;");
+    document.getElementById(Pos).setAttribute("style","background-color:#741A1A;");f
   }
 }
 
