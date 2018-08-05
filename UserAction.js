@@ -1,24 +1,3 @@
- /**
-
-Maybe have players choose different pieces/formations
-
-Paratrooper Plane/Air-base system/refueling system?/Artillery
-
-drop a bomb from air , creates trench?
-Trench System such that when formed, movement becomes [0], but singular 'soldiers' cannot move past them, nor deal dmg, but vehicles can do dmg. Must decide on orientation of trench.
-
-Add health of captured pieces to captor.\
-
-store moves if moving only 1/turn, cap 4-5
-
-because of radii of movement of pieces, consider making board bigger for start of game
-
-either have predecided aerial formations/ snake draft positions
-
-**/ 
-
-
-
 //User interaction
 $('#groundTable tr,#skyTable tr').each(function(){
     $(this).find('td').each(function(){
