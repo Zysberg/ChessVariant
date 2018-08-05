@@ -1,3 +1,4 @@
+//Strategy Design Principle
 function dRemInvalidSpaces(arr){
 	console.log(arr);
 	//First, remove the out-of-bounds spaces
@@ -137,6 +138,8 @@ function dCalcB(Pos,Dir){
 	return dRemInvalidSpaces(damage);
 }
 
+
+//Factory Design Principle
 function dCalc(SelectedPiece){
 	if (SelectedPiece.rank.includes("LUV")){
 		return dCalcLUV(SelectedPiece.Pos,SelectedPiece.isW);

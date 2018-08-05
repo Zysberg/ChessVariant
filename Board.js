@@ -1,6 +1,6 @@
 
 //rotates the board
-var rotation = 0;
+
 $("#rotator").click(function(){
     if (rotation==270){rotation=0}
     else{rotation+=90;}

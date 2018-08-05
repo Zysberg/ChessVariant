@@ -1,6 +1,7 @@
 var groundBoard = document.getElementById("groundTable");
 var skyBoard = document.getElementById("skyTable");
 var hMove = document.getElementById("hMove");
+var rotation = 0;
 
 var selectedCellID = "";
 var movedCellID = "";
