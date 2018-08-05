@@ -1,4 +1,5 @@
-body{background-color: #66d9ff;}
+body{background-color: #66d9ff;
+	text-align: center;}
 
 table{margin:auto;}
 
@@ -24,9 +25,23 @@ img{
 
 .hMovement{background-color:#ffff00;}
 
-#Turn{
-	height:35px;
-	width: 35px;
-	margin:auto;
+.Turn{
+	height:65px;
+	width: 65px;
 	background-color: #FFFFFF;
+	text-align: center;
+}
+
+#Title{
+	margin: auto;
+	text-align:center;
+	font-size: 48px;
+	font-family: 'Work Sans', cursive;
+	margin-left:85px;
+	margin-right: 85px;
+}
+.TitleLine{
+	display: inline-block;
+	margin: 0 auto;
+	border-radius: 25px;
 }

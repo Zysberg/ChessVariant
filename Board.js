@@ -1,3 +1,30 @@
+
+//rotates the board
+var rotation = 0;
+$("#rotator").click(function(){
+    if (rotation==270){rotation=0}
+    else{rotation+=90;}
+    
+    var rotateCSS = {'-webkit-transform' : 'rotate('+rotation+'deg)',
+                 '-moz-transform' : 'rotate('+rotation+'deg)',
+                 '-ms-transform' : 'rotate('+rotation+'deg)',
+                 'transform' : 'rotate('+rotation+'deg)'};
+    var counterRotateCSS = {'-webkit-transform' : 'rotate('+(rotation*-1)+'deg)',
+                 '-moz-transform' : 'rotate('+(rotation*-1)+'deg)',
+                 '-ms-transform' : 'rotate('+(rotation*-1)+'deg)',
+                 'transform' : 'rotate('+(rotation*-1)+'deg)'};
+
+    $("#sky").css(rotateCSS);
+    $("#ground").css(rotateCSS);
+
+    $('#groundTable tr').each(function(){
+    $(this).find('td').each(function(){
+        $(this).css(counterRotateCSS);});
+    });
+
+});
+
+
 //Generates the Board
 function makeBoard() {
     for (var i = 0; i < 10; i++) {
@@ -58,7 +85,10 @@ function placePiece(obj){
 //Calls Necessary Functions
 makeBoard();
 
+
 for (var i = 0; i<Black.length;i++){
 		placePiece(Black[i]);
 		placePiece(White[i]);
 }
+
+

@@ -41,7 +41,6 @@ $('#groundTable tr,#skyTable tr').each(function(){
       		if (isWhite){selectedPiece = White.find(obj => obj.Pos == $(this).attr("id"));}
           else{selectedPiece = Black.find(obj => obj.Pos == $(this).attr("id"));}
           selectedCellID = $(this).attr('id');
-          console.log(selectedPiece);
 
           //check to see if deployable
           if (DKEY&&(!(typeof(selectedPiece)==='undefined'))&&(selectedPiece.rank.includes("HVS")||selectedPiece.rank.includes("LUVS"))){
@@ -71,22 +70,20 @@ $('#groundTable tr,#skyTable tr').each(function(){
           if (selectedCellDamage.length>0){
             flicker($(this));
             var dmgPiece={};
-            console.log($(this).attr("id"));
+
             if (isWhite){dmgPiece = Black.find(obj => obj.Pos == $(this).attr("id"));}
             else{dmgPiece = White.find(obj => obj.Pos == $(this).attr("id"));}
             if ((typeof(dmgPiece) !=='undefined')){
                 tick();
             }
-            console.log(dmgPiece.health);
             dmgPiece.health = dmgPiece.health-1;
             if (selectedPiece.rank.includes("B")){
-              dmgPiece.health-=4;
+              dmgPiece.health=dmgPiece.health-4;
             }
             if (dmgPiece.rank.includes("J")||dmgPiece.rank.includes("B")){
               dmgPiece.health-=1;
             }
-            console.log(dmgPiece.health);
-            if (dmgPiece.health<0){
+            if (dmgPiece.health<1){
               $(this).empty();
               if (dmgPiece.rank.includes('F')){
                gameOver();
@@ -110,7 +107,6 @@ $('#groundTable tr,#skyTable tr').each(function(){
               move($(this)); 
               if ($(this).attr("id").includes("s")){
                 $(this).empty();
-                console.log("oo");
                 //Plane captures other plane
                 planeCrash($(this).attr("id"));
               }

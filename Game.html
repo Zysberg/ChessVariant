@@ -2,9 +2,13 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8"/>
+		<link href="https://fonts.googleapis.com/css?family=Work+Sans" rel="stylesheet">
 		<link rel="stylesheet" href="style.css">
 	</head>
 	<body>
+		<div class = "TitleLine Turn" ></div>
+		<p  class = "TitleLine" id = "Title">Stratos' Game</p>
+		<div class = "TitleLine Turn"></div>
 		<div class = "container" id = "Game">
 			<div id="ground">
 				<table id = "groundTable">
@@ -16,11 +20,12 @@
 					
 				</table>
 			</div>
+			<div class = 'container'>
+				<input type="checkbox" id ='hMove'>Highlight Movement
+			</div>
+			<div class = 'container'><button id="rotator">Rotate Board</button></div>
 		</div>
-		<div class = 'container'>
-			<input type="checkbox" id ='hMove'>Highlight Movement</button>
-		</div>
-		<div id="Turn"></div>
+
 	</body>
 	<script src = "jquery.js"></script>
 	<script src = "Piece.js"></script>
@@ -29,7 +34,6 @@
 	<script src = "movementCalc.js"></script>
 	<script src = "damageCalc.js"></script>
 	<script src = "UserActionHelperMethods.js"></script>
-	<script src = "yes.js"></script>
-
+	<script src = "UserAction.js"></script>
 	
 </html>

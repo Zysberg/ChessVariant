@@ -40,9 +40,7 @@ function move(cell){
           break;
       default:
           rotate = 270;
-          console.log("help");
   } 
-    console.log(rotate); 
     selectedPiece.html.style.transform = "rotate("+rotate+"deg)";
   }
   selectedPiece.Pos = cell.attr('id');
@@ -135,19 +133,18 @@ $(window).keydown(function(evt) {
 
 
 function damageChild(Pos){
+  document.getElementById(Pos).setAttribute("style","background-color:#741A1A;");
   if (document.getElementById(Pos).hasChildNodes()){
-    var P = (typeof(White.find(obj => obj.Pos == Pos) !== 'undefined')) ?  White.find(obj => obj.Pos == Pos) : Black.find(obj => obj.Pos == Pos);
+    var P = (typeof(White.find(obj => obj.Pos == Pos))=== 'undefined') ?  Black.find(obj => obj.Pos == Pos) : White.find(obj => obj.Pos == Pos);
     P.health-=2;
     //console.log("Attacked: "+Pos);
     if (P.health<1){
       empty(document.getElementById(Pos));
     }
-    document.getElementById(Pos).setAttribute("style","background-color:#741A1A;");f
   }
 }
 
   function planeCrash(Pos){
-    console.log(Pos);
     var RC = getRC(Pos);
     for (var i=-1;i<2;i++){
       damageChild("g"+(RC[0])+" "+(RC[1]+i));
