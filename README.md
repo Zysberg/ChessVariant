@@ -2,7 +2,7 @@
 A Variant of the Game of Chess.
 
 ## Background
-Stratos' Game, in essence, is a combination of Stratego, Sid Meier's Ace Patrol, and Chess. The objective of the player is to capture the oponent's flag. 
+Stratos' Game, in essence, is a combination of Stratego, Sid Meier's Ace Patrol, and Chess. The objective of the player is to capture (or destroy) the oponent's flag. 
 
 ### How to Play
 Each turn consists of two legal moves, except on white's first turn, in which white makes 1 legal move.
@@ -30,8 +30,8 @@ If two of any-colored pieces on the light-blue board occupy the same space, they
 
 ### Potential Updates
 
--Refactoring, debugging, and optimizing for cleaner code
--Including different pieces & gameplay elements
+*Refactoring, debugging, and optimizing for cleaner code
+*Including different pieces & gameplay elements
  -'Paratrooper plane'
  -'Refueling system'
  -'Trench system'
