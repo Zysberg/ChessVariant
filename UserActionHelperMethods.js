@@ -88,8 +88,8 @@ function tick(){
   turnCounter++;
   if (turnCounter==2){
     resetAndSwitch();
-    if (isWhite){$('#Turn').attr('style','background-color:#FFFFFF;')}
-    else{$('#Turn').attr('style','background-color:#000000;')}
+    if (isWhite){$('.Turn').attr('style','background-color:#FFFFFF;')}
+    else{$('.Turn').attr('style','background-color:#000000;')}
   }
 }
 
