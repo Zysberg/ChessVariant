@@ -30,11 +30,11 @@ If two of any-colored pieces on the light-blue board occupy the same space, they
 
 ### Potential Updates
 
-*Refactoring, debugging, and optimizing for cleaner code
-*Including different pieces & gameplay elements
- -'Paratrooper plane'
- -'Refueling system'
- -'Trench system'
- -Add health of captured Pieces to captor.
- -Storing moves if only making 1 move per turn.
- -Allow for custom starting positions/formations
+* Refactoring, debugging, and optimizing for cleaner code
+* Including different pieces & gameplay elements
+ - 'Paratrooper plane'
+ - 'Refueling system'
+ - 'Trench system'
+ - Add health of captured Pieces to captor.
+ - Storing moves if only making 1 move per turn.
+ - Allow for custom starting positions/formations
